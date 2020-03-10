@@ -1,7 +1,7 @@
 {
   "parser": "@typescript-eslint/parser",
   "extends": [
-    "plugin:react/recommended",
+    "eslint-config-developit",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],
