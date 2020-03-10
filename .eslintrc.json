@@ -20,5 +20,7 @@
       "version": "detect"
     }
   },
-  "rules": {}
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "off"
+  }
 }
