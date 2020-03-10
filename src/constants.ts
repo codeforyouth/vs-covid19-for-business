@@ -3,5 +3,5 @@ export const SHEET_KEY =
 
 export const PROXY_HOST = 'https://app.sabae.cc/proxy';
 
-export const CSV_URL_WITH = (key: string): string =>
+export const getCSVUrl = (key: string): string =>
   `https://docs.google.com/spreadsheets/d/e/${key}/pub?gid=0&single=true&output=csv`;
