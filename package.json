@@ -1,0 +1,14 @@
+{
+  "name": "vs-covid19",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/yokinist/vs-covid19.git",
+  "author": "yokinist <yokinist@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  },
+  "dependencies": {
+    "preact": "^10.3.3"
+  }
+}
