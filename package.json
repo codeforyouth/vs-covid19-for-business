@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "preact": "^10.3.3"
+    "preact": "^10.3.3",
+    "styled-components": "^5.0.1"
   }
 }
