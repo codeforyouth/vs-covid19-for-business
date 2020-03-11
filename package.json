@@ -1,7 +1,7 @@
 {
   "name": "vs-covid19",
   "version": "1.0.0",
-  "main": "src/index.tsx",
+  "main": "src/App.tsx",
   "repository": "https://github.com/yokinist/vs-covid19.git",
   "author": "yokinist <yokinist@gmail.com>",
   "license": "MIT",
