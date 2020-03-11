@@ -1,19 +1,29 @@
 import { useState, useEffect } from 'preact/hooks';
-import Axios from 'axios';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 
-const useFetch = (url: string) => {
-  const [res, setRes] = useState(null);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      setLoading(true);
-      const res = await Axios.get(url);
-      setRes(res);
-      return Promise.resolve();
-    };
-    fetchData().finally(() => setLoading(false));
-  }, [url]);
-  return { res, loading };
+type ReturnType = {
+  response: AxiosResponse | null;
+  error: AxiosError;
+  isLoading: boolean;
 };
 
-export default useFetch;
+export const useFetch = (url: string): ReturnType => {
+  const [response, setResponse] = useState<ReturnType['response']>(null);
+  const [error, setError] = useState<ReturnType['error']>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    const fetchData = async (): Promise<void> => {
+      setIsLoading(true);
+      try {
+        const res = await axios.get(url);
+        setResponse(res);
+        return Promise.resolve();
+      } catch (err) {
+        setError(err);
+        return Promise.reject();
+      }
+    };
+    fetchData().finally(() => setIsLoading(false));
+  }, [url]);
+  return { response, error, isLoading };
+};
