@@ -1,0 +1,29 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint-config-developit",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": [],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {"browser": true},
+  "globals": {},
+  "settings": {
+    "react": {
+      "version": "detect",
+      "pragma": "h"
+    }
+  },
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "off",
+    // resolve prettier conflict
+    "react/jsx-indent-props": "off"
+  }
+}
