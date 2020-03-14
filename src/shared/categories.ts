@@ -9,10 +9,6 @@ export default [
     color: Colors.purple,
   },
   {
-    name: '生活関連サービス、娯楽',
-    color: Colors.orange,
-  },
-  {
     name: '宿泊、飲食サービス',
     color: Colors.green,
   },
@@ -21,12 +17,16 @@ export default [
     color: Colors.blue,
   },
   {
+    name: '医療、福祉',
+    color: Colors.greenBlue,
+  },
+  {
     name: 'コミュニケーション',
     color: Colors.yellow,
   },
   {
-    name: '医療、福祉',
-    color: Colors.greenBlue,
+    name: '生活関連サービス、娯楽',
+    color: Colors.orange,
   },
   {
     name: 'その他',
