@@ -1,21 +1,31 @@
-import { h, render, FunctionalComponent } from 'preact';
-import { useFetch, useFormat } from './hooks';
-import { SHEET_KEY, getCSVUrl, PROXY_HOST } from './constants';
-import { Card, SearchBox } from './components';
+import { h, render, FunctionalComponent, FunctionComponent } from 'preact';
+import { useEffect } from 'preact/hooks';
+import { SHEET_URL } from './constants';
+import { AppContainer } from './containers';
+import { SearchBox, CheckLoadStatus } from './components';
 import GlobalStyle from './styles';
-const App: FunctionalComponent = () => {
-  const { response, error, isLoading } = useFetch(
-    PROXY_HOST + '/?url=' + encodeURIComponent(getCSVUrl(SHEET_KEY)),
-  );
-  const { data } = useFormat(response?.data);
+
+const AppComponent: FunctionComponent = () => {
+  const { fetchSupports } = AppContainer.useContainer();
+
+  useEffect(() => {
+    fetchSupports(SHEET_URL);
+  }, []);
   return (
     <div>
       <GlobalStyle />
       <SearchBox />
-      {isLoading && <p>読込中</p>}
-      {!isLoading && data && data.map((item, i) => <Card key={i} {...item} />)}
-      {!isLoading && error && <p>{error.name + ':' + error.message}</p>}
+      <CheckLoadStatus />
     </div>
+  );
+};
+
+const App: FunctionalComponent = () => {
+  const { Provider } = AppContainer;
+  return (
+    <Provider>
+      <AppComponent />
+    </Provider>
   );
 };
 
