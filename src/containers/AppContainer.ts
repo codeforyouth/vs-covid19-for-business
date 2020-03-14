@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'preact/hooks';
+import { useState, useCallback, useEffect } from 'preact/hooks';
 import { createContainer } from 'unstated-next';
 import { Support } from '../typings';
 import axios, { AxiosResponse, AxiosError } from 'axios';
@@ -9,6 +9,7 @@ export type AppContainerType = {
   handleSetWord: (w?: AppContainerType['word']) => void;
   handleSetSupports: (supports?: Support[] | null) => void;
   fetchSupports: (url: string) => void;
+  filteredSupports: Support[] | null;
 };
 
 type SupportsData = {
@@ -27,6 +28,9 @@ const useAppContainer = (): AppContainerType => {
   const [word, setWord] = useState('');
   const [supportsData, setSupportsData] = useState<SupportsData>(
     initialSupportState,
+  );
+  const [filteredSupports, setFilteredSupports] = useState<Support[] | null>(
+    null,
   );
 
   const handleSetWord = useCallback((w?: string): void => setWord(w), []);
@@ -52,9 +56,20 @@ const useAppContainer = (): AppContainerType => {
     }
   }, []);
 
+  useEffect(() => {
+    console.debug(word);
+    const supports = supportsData?.response?.data;
+    if (!supports || !word) return;
+    const filteredSupports = supports.filter(support =>
+      support.サービス名称.includes(word),
+    );
+    setFilteredSupports(filteredSupports);
+  }, [word]);
+
   return {
     word,
     supportsData,
+    filteredSupports,
     handleSetWord,
     handleSetSupports,
     fetchSupports,
