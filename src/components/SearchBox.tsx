@@ -20,12 +20,6 @@ const SearchBox: FunctionalComponent = () => {
         </div>
       </h1>
       <div class="searchboxid">
-        <span class="sitedesc">
-          企業等による新型コロナウイルス感染症対策支援サービスをまとめました（出典:
-          <a href="https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/">
-            政府オープンデータ
-          </a>
-        </span>
         <input
           type="text"
           id="searchbox"
@@ -33,6 +27,17 @@ const SearchBox: FunctionalComponent = () => {
           value={word}
           onChange={handleChangeWord}
         />
+        <span class="sitedesc">
+          企業等による新型コロナウイルス感染症対策支援サービスをまとめました（出典:
+          <a
+            href="https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            政府オープンデータ
+          </a>
+          )
+        </span>
       </div>
     </Container>
   );
@@ -42,7 +47,7 @@ const Container = styled.div`
   background-color: ${Colors.yellow};
   > h1 {
     margin: 0;
-    padding: 0.8em 0.3em 0.1em 0.3em;
+    padding: 30px 0;
     color: white;
     text-align: center;
     font-size: 7vw;
@@ -52,7 +57,7 @@ const Container = styled.div`
     }
     > .subtitle {
       color: ${Colors.textBlack};
-      font-size: 3vw;
+      font-size: 36px;
       > a {
         color: ${Colors.textBlack} !important;
         text-decoration: none;
@@ -67,16 +72,24 @@ const Container = styled.div`
       width: 80vw;
       > a {
         color: black !important;
+        text-decoration: underline;
       }
+    }
+    > span {
+      font-size: 12px;
+      line-height: 170%;
+      color: ${Colors.textBlack};
+      margin-bottom: 60px;
     }
     > input {
       width: 60vw;
       margin: 0.5em 0.2em 0.2em 0.5em;
       font-size: 24px;
-      border: 2px solid black;
+      border-radius: 48px;
+      border: 2px solid ${Colors.borderGray};
       line-height: 1.3em;
-      padding: 0.1em 0.3em;
-      margin-bottom: 16px;
+      padding: 16px 24px;
+      margin-bottom: 8px;
     }
   }
 `;
