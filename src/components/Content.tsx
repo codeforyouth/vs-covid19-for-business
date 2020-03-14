@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { AppContainer } from '../containers';
 import { Card } from '.';
 import { LAYOUT_WIDTH } from '../constants';
+import Loader from '../assets/images/loader.svg';
 
 const CheckLoadStatus: FunctionalComponent = () => {
   const {
@@ -13,8 +14,15 @@ const CheckLoadStatus: FunctionalComponent = () => {
   return (
     <Layout>
       <div>
-        {isLoading && <p>読込中</p>}
+        {isLoading && (
+          <div className="loader">
+            <img src={Loader} alt="読込中" />
+          </div>
+        )}
         {error && <p>{error.name + ':' + error.message}</p>}
+        {!isLoading && (!response || (word && !filteredSupports)) && (
+          <p>何もありません</p>
+        )}
         {!word &&
           response &&
           response?.data?.map((item, i) => <Card key={i} {...item} />)}
@@ -27,9 +35,6 @@ const CheckLoadStatus: FunctionalComponent = () => {
               ))}
             </div>
           </div>
-        )}
-        {!isLoading && (!response || (word && !filteredSupports)) && (
-          <p>何もありません</p>
         )}
       </div>
     </Layout>
@@ -44,6 +49,15 @@ const Layout = styled.div`
     margin: 0 auto;
     max-width: ${LAYOUT_WIDTH}px;
     margin-bottom: 24px;
+    > .loader {
+      width: 100%;
+      > img {
+        margin: 80px auto;
+        width: 80px;
+        height: 80px;
+        color: #f6c744;
+      }
+    }
     span {
       font-weight: bold;
     }
