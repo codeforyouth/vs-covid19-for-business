@@ -81,9 +81,11 @@ const Layout = styled.div`
     > .loader {
       width: 100%;
       > img {
+        filter: invert(50%) sepia(0%) saturate(11%) hue-rotate(143deg)
+          brightness(101%) contrast(93%);
         margin: 120px auto;
-        width: 120px;
-        height: 120px;
+        width: 80px;
+        height: 80px;
       }
     }
     span {
