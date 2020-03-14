@@ -1,7 +1,7 @@
 import { h, FunctionalComponent } from 'preact';
 import styled from 'styled-components';
 import { AppContainer } from '../containers';
-import { Card } from '../components';
+import { Card } from '.';
 import { LAYOUT_WIDTH } from '../constants';
 
 const CheckLoadStatus: FunctionalComponent = () => {
@@ -18,7 +18,7 @@ const CheckLoadStatus: FunctionalComponent = () => {
         {!word &&
           response &&
           response?.data?.map((item, i) => <Card key={i} {...item} />)}
-        {word && filteredSupports ? (
+        {word && filteredSupports && (
           <div>
             <span>該当件数: {filteredSupports.length}件</span>
             <div className="content">
@@ -27,10 +27,10 @@ const CheckLoadStatus: FunctionalComponent = () => {
               ))}
             </div>
           </div>
-        ) : (
-          <p>該当するものが見つかりませんでした</p>
         )}
-        {!isLoading && !response && <p>何もありません</p>}
+        {!isLoading && (!response || (word && !filteredSupports)) && (
+          <p>何もありません</p>
+        )}
       </div>
     </Layout>
   );

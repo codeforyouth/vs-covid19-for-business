@@ -2,7 +2,7 @@ import { h, render, FunctionalComponent, FunctionComponent } from 'preact';
 import { useEffect } from 'preact/hooks';
 import { SHEET_URL } from './constants';
 import { AppContainer } from './containers';
-import { SearchBox, CheckLoadStatus } from './components';
+import { SearchBox, Content } from './components';
 import GlobalStyle from './styles';
 
 const AppComponent: FunctionComponent = () => {
@@ -15,7 +15,7 @@ const AppComponent: FunctionComponent = () => {
     <div>
       <GlobalStyle />
       <SearchBox />
-      <CheckLoadStatus />
+      <Content />
     </div>
   );
 };
