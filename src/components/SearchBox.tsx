@@ -47,6 +47,7 @@ const Container = styled.div`
     font-size: 7vw;
     > img {
       width: 50vw;
+      margin: 0 auto;
     }
     > .subtitle {
       color: #333;
