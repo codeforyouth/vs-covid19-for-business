@@ -3,21 +3,30 @@ import { h, FunctionalComponent } from 'preact';
 import styled from 'styled-components';
 import { Support } from '../typings';
 import { Colors } from '../shared';
+import DateRange from '@material-ui/icons/DateRange';
+import Person from '@material-ui/icons/PermIdentity';
 
 type Props = Support;
 const Card: FunctionalComponent<Props> = props => (
   <Container type={props['分野']}>
     <div className="top">
-      <div className="type">{props['分野']}</div>
+      <div className="tags">
+        <div className="type">{props['分野']}</div>
+        <div className="item">{props['サービス分類']}</div>
+        <div className="item">{props['無料/有料']}</div>
+      </div>
       <h2>{props['サービス名称']}</h2>
       <p>{props['詳細']}</p>
       <div className="list">
-        <div className="item">{props['無料/有料']}</div>
-        <div className="item">{props['対象者']}</div>
-        <div className="item">{props['サービス分類']}</div>
-        <div className="item">{props['対象者']}</div>
-        <div className="item">{props['開始日'] + '〜' + props['終了日']}</div>
-        <div className="item">{props['期間備考']}</div>
+        <div className="item">
+          <DateRange />
+          {props['開始日'] + 'から' + props['終了日'] + 'まで'}
+          {props['期間備考'] && ' ※ ' + props['期間備考']}
+        </div>
+        <div className="item">
+          <Person />
+          {props['対象者']}
+        </div>
       </div>
     </div>
     <div className="bottom">
@@ -57,28 +66,47 @@ const Container = styled.div<{ type?: string }>`
   line-height: 1.8em;
   > .top {
     padding: 36px 20px;
-    > .type {
-      color: white;
-      background-color: ${({ type }) => getBGColor(type)};
-      padding: 4px 8px;
-      margin-bottom: 16px;
-      display: inline-block;
-      border-radius: 4px;
+    > p {
+      color: ${Colors.textBlack};
     }
-    > h2 {
-      margin-bottom: 12px;
-    }
-    > .list {
-      margin-top: 16px;
+    > .tags {
       display: flex;
       flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 16px;
+      > .type {
+        color: white;
+        background-color: ${({ type }) => getBGColor(type)};
+        padding: 4px 8px;
+        display: inline-block;
+        border-radius: 4px;
+      }
       > .item {
-        padding: 3px 9px;
-        margin-right: 8px;
-        margin-bottom: 8px;
+        padding: 4px 8px;
+        margin-left: 8px;
         border-radius: 4px;
         color: ${Colors.textGray};
         background-color: ${Colors.bgLightGray};
+      }
+    }
+    > h2 {
+      margin-bottom: 12px;
+      color: ${Colors.textBlack};
+    }
+    > .list {
+      margin-top: 16px;
+      > .item {
+        display: flex;
+        align-items: center;
+        color: ${Colors.textBlack};
+        &:nth-child(odd) {
+          margin-bottom: 8px;
+        }
+        > svg {
+          font-size: 24px;
+          color: ${Colors.textBlack};
+          margin-right: 8px;
+        }
       }
     }
   }
@@ -104,12 +132,12 @@ const Container = styled.div<{ type?: string }>`
         font-weight: normal;
         display: block;
         text-decoration: none;
-        color: ${Colors.yellow} !important;
+        color: ${Colors.yellow};
       }
       &:hover {
         background-color: ${Colors.yellow};
         > a {
-          color: #${Colors.white} !important;
+          color: ${Colors.white};
         }
       }
     }
