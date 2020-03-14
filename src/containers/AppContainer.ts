@@ -25,7 +25,7 @@ const initialSupportState: SupportsData = {
 };
 
 const useAppContainer = (): AppContainerType => {
-  const [word, setWord] = useState('');
+  const [word, setWord] = useState(null);
   const [supportsData, setSupportsData] = useState<SupportsData>(
     initialSupportState,
   );
@@ -57,11 +57,11 @@ const useAppContainer = (): AppContainerType => {
   }, []);
 
   useEffect(() => {
-    console.debug(word);
     const supports = supportsData?.response?.data;
     if (!supports || !word) return;
-    const filteredSupports = supports.filter(support =>
-      support.サービス名称.includes(word),
+    const filteredSupports = supports.filter(
+      support =>
+        support.サービス名称.includes(word) || support.詳細.includes(word),
     );
     setFilteredSupports(filteredSupports);
   }, [word]);

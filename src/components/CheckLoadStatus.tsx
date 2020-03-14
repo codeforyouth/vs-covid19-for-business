@@ -1,20 +1,30 @@
 import { h, FunctionalComponent } from 'preact';
-import { AppContainerType } from '../containers';
+import { AppContainer } from '../containers';
 import { Card } from '../components';
 
-type Props = Pick<AppContainerType, 'supportsData' | 'filteredSupports'>;
-
-const CheckLoadStatus: FunctionalComponent<Props> = ({
-  supportsData: { isLoading, response, error },
-  filteredSupports,
-}) => {
+const CheckLoadStatus: FunctionalComponent = () => {
+  const {
+    supportsData: { isLoading, error, response },
+    word,
+    filteredSupports,
+  } = AppContainer.useContainer();
   return (
     <div>
       {isLoading && <p>読込中</p>}
       {error && <p>{error.name + ':' + error.message}</p>}
-      {filteredSupports &&
-        filteredSupports.map((item, i) => <Card key={i} {...item} />)}
-      {response && response?.data?.map((item, i) => <Card key={i} {...item} />)}
+      {!word &&
+        response &&
+        response?.data?.map((item, i) => <Card key={i} {...item} />)}
+      {word && filteredSupports ? (
+        <div>
+          <p>{filteredSupports.length}件</p>
+          {filteredSupports.map((item, i) => (
+            <Card key={i} {...item} />
+          ))}
+        </div>
+      ) : (
+        <p>該当するものが見つかりませんでした</p>
+      )}
       {!isLoading && !response && <p>何もありません</p>}
     </div>
   );

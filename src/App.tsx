@@ -2,31 +2,24 @@ import { h, render, FunctionalComponent, FunctionComponent } from 'preact';
 import { useEffect } from 'preact/hooks';
 import { SHEET_URL } from './constants';
 import { AppContainer } from './containers';
-import { Card, SearchBox, CheckLoadStatus } from './components';
+import { SearchBox, CheckLoadStatus } from './components';
 import GlobalStyle from './styles';
 
 const AppComponent: FunctionComponent = () => {
-  const {
-    fetchSupports,
-    supportsData,
-    filteredSupports,
-  } = AppContainer.useContainer();
+  const { fetchSupports } = AppContainer.useContainer();
 
   useEffect(() => {
     fetchSupports(SHEET_URL);
   }, []);
-
   return (
     <div>
       <GlobalStyle />
       <SearchBox />
-      <CheckLoadStatus
-        supportsData={supportsData}
-        filteredSupports={filteredSupports}
-      />
+      <CheckLoadStatus />
     </div>
   );
 };
+
 const App: FunctionalComponent = () => {
   const { Provider } = AppContainer;
   return (
