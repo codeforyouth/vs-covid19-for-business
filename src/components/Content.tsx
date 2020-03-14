@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { h, FunctionalComponent } from 'preact';
 import styled from 'styled-components';
 import { AppContainer } from '../containers';
@@ -11,6 +12,7 @@ const CheckLoadStatus: FunctionalComponent = () => {
     supportsData: { isLoading, error, response },
     word,
     filteredSupports,
+    handleSetWord,
   } = AppContainer.useContainer();
   return (
     <Layout>
@@ -20,6 +22,7 @@ const CheckLoadStatus: FunctionalComponent = () => {
             <div
               key={category.color}
               style={{ backgroundColor: category.color }}
+              onClick={() => handleSetWord(category.name)}
             >
               {category.name}
             </div>

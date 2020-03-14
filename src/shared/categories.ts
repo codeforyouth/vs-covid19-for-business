@@ -1,7 +1,7 @@
 import Colors from './colors';
 export default [
   {
-    name: '教育・学習支援',
+    name: '教育、学習支援',
     color: Colors.yellow,
   },
   {
@@ -13,7 +13,7 @@ export default [
     color: Colors.orange,
   },
   {
-    name: '宿泊・飲食サービス',
+    name: '宿泊、飲食サービス',
     color: Colors.green,
   },
   {
