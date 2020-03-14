@@ -1,5 +1,6 @@
 import { h, FunctionalComponent } from 'preact';
 import styled from 'styled-components';
+import media from 'styled-media-query';
 import { AppContainer } from '../containers';
 import images from '../assets/images/*.png';
 import { Colors } from '../shared';
@@ -92,6 +93,29 @@ const Container = styled.div`
       margin-bottom: 8px;
     }
   }
+  ${media.lessThan('small')`
+    > h1  {
+      padding: 60px 0 20px;
+      > img {
+        width: 70vw;
+      }
+      > .subtitle {
+        font-size: 24px;
+      }
+    }
+    .searchboxid {
+      > input {
+        width: 90vw;
+        margin: 0.5em 0.2em 0.2em 0.5em;
+        font-size: 16px;
+        border-radius: 48px;
+        border: 2px solid ${Colors.borderGray};
+        line-height: 1.3em;
+        padding: 16px 24px;
+        margin-bottom: 8px;
+      }
+    }
+  `}
 `;
 
 export default SearchBox;
