@@ -3,7 +3,7 @@ import { createContainer } from 'unstated-next';
 
 export type AppContainerType = {
   word?: string;
-  handleSetWord: (w?: string) => void;
+  handleSetWord: (w?: AppContainerType['word']) => void;
 };
 
 const useAppContainer = (): AppContainerType => {

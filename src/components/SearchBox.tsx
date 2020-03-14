@@ -1,32 +1,41 @@
 import { h, FunctionalComponent } from 'preact';
 import styled from 'styled-components';
+import { AppContainer } from '../containers';
 import images from '../assets/images/*.png';
 
-const SearchBox: FunctionalComponent = () => (
-  <Container>
-    <h1 id="title">
-      <img src={images.title} alt="VS COVID-19" />
-      <div class="subtitle">
-        <a href="https://twitter.com/search?q=%23%E6%B0%91%E9%96%93%E6%94%AF%E6%8F%B4%E6%83%85%E5%A0%B1%E3%83%8A%E3%83%93">
-          #民間支援情報ナビ
-        </a>
+const SearchBox: FunctionalComponent = () => {
+  const { word, handleSetWord } = AppContainer.useContainer();
+  const handleChangeWord = (
+    e: h.JSX.TargetedEvent<HTMLInputElement, InputEvent>,
+  ): void => handleSetWord((e.target as HTMLInputElement)?.value);
+  return (
+    <Container>
+      <h1 id="title">
+        <img src={images.title} alt="VS COVID-19" />
+        <div class="subtitle">
+          <a href="https://twitter.com/search?q=%23%E6%B0%91%E9%96%93%E6%94%AF%E6%8F%B4%E6%83%85%E5%A0%B1%E3%83%8A%E3%83%93">
+            #民間支援情報ナビ
+          </a>
+        </div>
+      </h1>
+      <div class="searchboxid">
+        <span class="sitedesc">
+          企業等による新型コロナウイルス感染症対策支援サービスをまとめました（出典:
+          <a href="https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/">
+            政府オープンデータ
+          </a>
+        </span>
+        <input
+          type="text"
+          id="searchbox"
+          placeholder="検索する単語をご入力ください"
+          value={word}
+          onChange={handleChangeWord}
+        />
       </div>
-    </h1>
-    <div class="searchboxid">
-      <span class="sitedesc">
-        企業等による新型コロナウイルス感染症対策支援サービスをまとめました（出典:
-        <a href="https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/">
-          政府オープンデータ
-        </a>
-      </span>
-      <input
-        type="text"
-        id="searchbox"
-        placeholder="検索する単語をご入力ください"
-      />
-    </div>
-  </Container>
-);
+    </Container>
+  );
+};
 
 const Container = styled.div`
   > h1 {
