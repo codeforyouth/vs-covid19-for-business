@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { h, FunctionalComponent } from 'preact';
 import styled from 'styled-components';
+import media from 'styled-media-query';
 import { Support } from '../typings';
 import { Colors } from '../shared';
 import DateRange from '@material-ui/icons/DateRange';
@@ -79,6 +80,9 @@ const CategoryLabel = styled.div<{ type?: string }>`
   padding: 4px 8px;
   display: inline-block;
   border-radius: 4px;
+  ${media.lessThan('small')`
+    margin: 4px 12px 4px 0;
+  `}
 `;
 
 const Container = styled.div`
@@ -165,6 +169,37 @@ const Container = styled.div`
       color: ${Colors.yellow};
     }
   }
+  ${media.lessThan('small')`
+    > .top {
+      padding: 32px 20px;
+      > .tags {
+        align-items: center;
+        justify-content: flex-start;
+        margin-bottom: 20px;
+        > .type {
+          margin: 4px 4px 4px 0;
+          &:nth-child(even) {
+           margin: 0;
+          }
+        }
+        > .item {
+          margin: 4px 4px 4px 0;
+        }
+      }
+    }
+    > .bottom {
+      padding: 20px;
+      justify-content: center;
+      > .from {
+        margin-bottom: 12px;
+      }
+      > .url {
+        background-color: ${Colors.yellow};
+        color: ${Colors.white};
+        margin-bottom: 8px;
+      }
+    }
+  `}
 `;
 
 export default Card;
