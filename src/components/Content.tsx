@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { h, FunctionalComponent } from 'preact';
 import styled from 'styled-components';
+import media from 'styled-media-query';
 import { AppContainer } from '../containers';
 import { Card } from '.';
 import { LAYOUT_WIDTH } from '../constants';
@@ -80,9 +81,9 @@ const Layout = styled.div`
     > .loader {
       width: 100%;
       > img {
-        margin: 80px auto;
-        width: 80px;
-        height: 80px;
+        margin: 120px auto;
+        width: 120px;
+        height: 120px;
       }
     }
     span {
@@ -92,6 +93,22 @@ const Layout = styled.div`
       margin-top: 30px 60px;
     }
   }
+  ${media.lessThan('medium')`
+    padding: 0 16px;
+    div {
+      > .categories {
+        padding-top: 14px;
+      }
+    }
+  `}
+  ${media.lessThan('small')`
+    padding: 0 16px;
+    div {
+      > .categories {
+        justify-content: center;
+      }
+    }
+  `}
 `;
 
 export default CheckLoadStatus;
