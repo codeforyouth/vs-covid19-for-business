@@ -58,7 +58,7 @@ const CheckLoadStatus: FunctionalComponent = () => {
 const Layout = styled.div`
   background-color: ${Colors.bgLightGray};
   min-height: 100vh;
-  padding: 24px 0;
+  padding: 16px 0;
   > div {
     margin: 0 auto;
     max-width: ${LAYOUT_WIDTH}px;
@@ -74,6 +74,7 @@ const Layout = styled.div`
         display: inline-block;
         border-radius: 4px;
         margin-right: 8px;
+        margin-top: 8px;
       }
     }
     > .loader {

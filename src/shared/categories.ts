@@ -2,7 +2,7 @@ import Colors from './colors';
 export default [
   {
     name: '教育、学習支援',
-    color: Colors.yellow,
+    color: Colors.red,
   },
   {
     name: 'ワークスタイル',
@@ -19,6 +19,14 @@ export default [
   {
     name: '情報通信',
     color: Colors.blue,
+  },
+  {
+    name: 'コミュニケーション',
+    color: Colors.yellow,
+  },
+  {
+    name: '医療、福祉',
+    color: Colors.greenBlue,
   },
   {
     name: 'その他',
