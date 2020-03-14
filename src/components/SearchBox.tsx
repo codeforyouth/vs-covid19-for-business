@@ -2,6 +2,7 @@ import { h, FunctionalComponent } from 'preact';
 import styled from 'styled-components';
 import { AppContainer } from '../containers';
 import images from '../assets/images/*.png';
+import { Colors } from '../shared';
 
 const SearchBox: FunctionalComponent = () => {
   const { word, handleSetWord } = AppContainer.useContainer();
@@ -38,7 +39,7 @@ const SearchBox: FunctionalComponent = () => {
 };
 
 const Container = styled.div`
-  background-color: #f6c744;
+  background-color: ${Colors.yellow};
   > h1 {
     margin: 0;
     padding: 0.8em 0.3em 0.1em 0.3em;
@@ -50,10 +51,10 @@ const Container = styled.div`
       margin: 0 auto;
     }
     > .subtitle {
-      color: #333;
+      color: ${Colors.textBlack};
       font-size: 3vw;
       > a {
-        color: #333 !important;
+        color: ${Colors.textBlack} !important;
         text-decoration: none;
       }
     }

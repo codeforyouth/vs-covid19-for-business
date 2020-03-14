@@ -2,6 +2,8 @@
 import { h, FunctionalComponent } from 'preact';
 import styled from 'styled-components';
 import { Support } from '../typings';
+import { Colors } from '../shared';
+
 type Props = Support;
 const Card: FunctionalComponent<Props> = props => (
   <Container type={props['分野']}>
@@ -32,25 +34,25 @@ const Card: FunctionalComponent<Props> = props => (
 const getBGColor = (type: string): string => {
   switch (type) {
     case '教育、学習支援':
-      return '#f6c744';
+      return Colors.yellow;
     case 'ワークスタイル（テレワーク含む）':
-      return '#4A6EED';
+      return Colors.purple;
     case '生活関連サービス、娯楽':
-      return '#F07A0C';
+      return Colors.orange;
     case '宿泊、飲食サービス':
-      return '#3BA599';
+      return Colors.green;
     case '情報通信':
-      return '#5AA9E2';
+      return Colors.blue;
     case 'その他':
     default:
-      return '#A626D3';
+      return Colors.violet;
   }
 };
 
 const Container = styled.div<{ type?: string }>`
   border-radius: 6px;
   box-shadow: 0px 1px 18px rgba(0, 0, 0, 0.04);
-  background-color: #ffffff;
+  background-color: ${Colors.white};
   margin: 1em 0;
   line-height: 1.8em;
   > .top {
@@ -75,26 +77,26 @@ const Container = styled.div<{ type?: string }>`
         margin-right: 8px;
         margin-bottom: 8px;
         border-radius: 4px;
-        color: #a4a4a4;
-        background-color: #f3f3f4;
+        color: ${Colors.textGray};
+        background-color: ${Colors.bgLightGray};
       }
     }
   }
   > .bottom {
-    border-top: 1px solid #f3f3f4;
+    border-top: 1px solid ${Colors.borderGray};
     padding: 20px;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
     > .from {
-      color: #a4a4a4;
+      color: ${Colors.textGray};
     }
     > .url {
       cursor: pointer;
       border-radius: 100px;
-      border: 1px solid #f6c744;
-      background-color: #ffffff;
+      border: 1px solid ${Colors.yellow};
+      background-color: ${Colors.white};
       font-weight: bold;
       text-align: center;
       padding: 8px 48px;
@@ -102,12 +104,12 @@ const Container = styled.div<{ type?: string }>`
         font-weight: normal;
         display: block;
         text-decoration: none;
-        color: #f6c744 !important;
+        color: ${Colors.yellow} !important;
       }
       &:hover {
-        background-color: #f6c744;
+        background-color: ${Colors.yellow};
         > a {
-          color: #ffffff !important;
+          color: #${Colors.white} !important;
         }
       }
     }

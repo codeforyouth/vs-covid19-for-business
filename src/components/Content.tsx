@@ -4,6 +4,7 @@ import { AppContainer } from '../containers';
 import { Card } from '.';
 import { LAYOUT_WIDTH } from '../constants';
 import Loader from '../assets/images/loader.svg';
+import { Colors } from '../shared';
 
 const CheckLoadStatus: FunctionalComponent = () => {
   const {
@@ -42,7 +43,7 @@ const CheckLoadStatus: FunctionalComponent = () => {
 };
 
 const Layout = styled.div`
-  background-color: #f3f3f4;
+  background-color: ${Colors.bgLightGray};
   min-height: 100vh;
   padding-top: 24px;
   > div {
@@ -55,7 +56,6 @@ const Layout = styled.div`
         margin: 80px auto;
         width: 80px;
         height: 80px;
-        color: #f6c744;
       }
     }
     span {
