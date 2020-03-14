@@ -61,7 +61,9 @@ const useAppContainer = (): AppContainerType => {
     if (!supports || !word) return;
     const filteredSupports = supports.filter(
       support =>
-        support.サービス名称.includes(word) || support.詳細.includes(word),
+        support.サービス名称.includes(word) ||
+        support.詳細.includes(word) ||
+        support.分野.includes(word),
     );
     setFilteredSupports(filteredSupports);
   }, [word]);
