@@ -38,6 +38,7 @@ const SearchBox: FunctionalComponent = () => {
 };
 
 const Container = styled.div`
+  background-color: #f6c744;
   > h1 {
     margin: 0;
     padding: 0.8em 0.3em 0.1em 0.3em;
@@ -46,6 +47,7 @@ const Container = styled.div`
     font-size: 7vw;
     > img {
       width: 50vw;
+      margin: 0 auto;
     }
     > .subtitle {
       color: #333;
@@ -73,6 +75,7 @@ const Container = styled.div`
       border: 2px solid black;
       line-height: 1.3em;
       padding: 0.1em 0.3em;
+      margin-bottom: 16px;
     }
   }
 `;
