@@ -8,36 +8,34 @@ import Person from '@material-ui/icons/PermIdentity';
 
 type Props = Support;
 const Card: FunctionalComponent<Props> = props => (
-  <Container type={props['分野']}>
-    <div className="top">
-      <div className="tags">
-        <div className="type">{props['分野']}</div>
-        <div className="item">{props['サービス分類']}</div>
-        <div className="item">{props['無料/有料']}</div>
-      </div>
-      <h2>{props['サービス名称']}</h2>
-      <p>{props['詳細']}</p>
-      <div className="list">
-        <div className="item">
-          <DateRange />
-          {props['開始日'] + 'から' + props['終了日'] + 'まで'}
-          {props['期間備考'] && ' ※ ' + props['期間備考']}
+  <a href={props.URL} target="_blank" rel="noopener noreferrer">
+    <Container type={props['分野']}>
+      <div className="top">
+        <div className="tags">
+          <div className="type">{props['分野']}</div>
+          <div className="item">{props['サービス分類']}</div>
+          <div className="item">{props['無料/有料']}</div>
         </div>
-        <div className="item">
-          <Person />
-          {props['対象者']}
+        <h2>{props['サービス名称']}</h2>
+        <p>{props['詳細']}</p>
+        <div className="list">
+          <div className="item">
+            <DateRange />
+            {props['開始日'] + 'から' + props['終了日'] + 'まで'}
+            {props['期間備考'] && ' ※ ' + props['期間備考']}
+          </div>
+          <div className="item">
+            <Person />
+            {props['対象者']}
+          </div>
         </div>
       </div>
-    </div>
-    <div className="bottom">
-      <div className="from">{'提供: ' + props['企業等']}</div>
-      <div className="url">
-        <a href={props.URL} target="_blank" rel="noopener noreferrer">
-          アクセスする
-        </a>
+      <div className="bottom">
+        <div className="from">{'提供: ' + props['企業等']}</div>
+        <div className="url">アクセスする</div>
       </div>
-    </div>
-  </Container>
+    </Container>
+  </a>
 );
 
 const getBGColor = (type: string): string => {
@@ -59,13 +57,23 @@ const getBGColor = (type: string): string => {
 };
 
 const Container = styled.div<{ type?: string }>`
+  cursor: pointer;
   border-radius: 6px;
   box-shadow: 0px 1px 18px rgba(0, 0, 0, 0.04);
   background-color: ${Colors.white};
   margin: 1em 0;
   line-height: 1.8em;
+  &:hover {
+    box-shadow: 0px 1px 18px rgba(0, 0, 0, 0.12);
+    > .bottom {
+      > .url {
+        background-color: ${Colors.yellow};
+        color: ${Colors.white};
+      }
+    }
+  }
   > .top {
-    padding: 36px 20px;
+    padding: 32px 20px;
     > p {
       color: ${Colors.textBlack};
     }
@@ -73,7 +81,7 @@ const Container = styled.div<{ type?: string }>`
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       > .type {
         color: white;
         background-color: ${({ type }) => getBGColor(type)};
@@ -90,7 +98,7 @@ const Container = styled.div<{ type?: string }>`
       }
     }
     > h2 {
-      margin-bottom: 12px;
+      margin-bottom: 16px;
       color: ${Colors.textBlack};
     }
     > .list {
@@ -128,18 +136,10 @@ const Container = styled.div<{ type?: string }>`
       font-weight: bold;
       text-align: center;
       padding: 8px 48px;
-      > a {
-        font-weight: normal;
-        display: block;
-        text-decoration: none;
-        color: ${Colors.yellow};
-      }
-      &:hover {
-        background-color: ${Colors.yellow};
-        > a {
-          color: ${Colors.white};
-        }
-      }
+      font-weight: normal;
+      display: block;
+      text-decoration: none;
+      color: ${Colors.yellow};
     }
   }
 `;
