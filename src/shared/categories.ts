@@ -17,19 +17,11 @@ export default [
     color: Colors.blue,
   },
   {
-    name: '医療、福祉',
-    color: Colors.greenBlue,
-  },
-  {
     name: 'コミュニケーション',
-    color: Colors.yellow,
+    color: Colors.greenBlue,
   },
   {
     name: '生活関連サービス、娯楽',
     color: Colors.orange,
-  },
-  {
-    name: 'その他',
-    color: Colors.violet,
   },
 ];
