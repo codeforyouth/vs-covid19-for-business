@@ -4,6 +4,7 @@ import media from 'styled-media-query';
 import { AppContainer } from '../containers';
 import images from '../assets/images/*.png';
 import { Colors } from '../shared';
+import { BASE_URL, Meta } from '../constants';
 
 const SearchBox: FunctionalComponent = () => {
   const { word, handleSetWord } = AppContainer.useContainer();
@@ -38,6 +39,52 @@ const SearchBox: FunctionalComponent = () => {
             政府オープンデータ
           </a>
           )
+          <div className="share">
+            <div>
+              <a
+                href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+                class="twitter-share-button"
+                data-text={Meta.title + ' | ' + Meta.description}
+                data-url={BASE_URL}
+                data-lang="ja"
+                data-size="large"
+              />
+              <script
+                async
+                src="https://platform.twitter.com/widgets.js"
+                charset="utf-8"
+              />
+            </div>
+            <div>
+              <div
+                class="line-it-button"
+                data-lang="ja"
+                data-type="share-a"
+                data-ver="3"
+                data-url={BASE_URL}
+                data-color="default"
+                data-size="large"
+                data-count="false"
+                style="display: none;"
+              />
+              <script
+                src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js"
+                async="async"
+                defer="defer"
+              />
+            </div>
+            <div>
+              <div
+                class="fb-like"
+                data-href="https://vs-covid19.now.sh/"
+                data-width=""
+                data-layout="button"
+                data-action="like"
+                data-size="large"
+                data-share="true"
+              />
+            </div>
+          </div>
         </span>
       </div>
     </Container>
@@ -74,6 +121,16 @@ const Container = styled.div`
       > a {
         color: black !important;
         text-decoration: underline;
+      }
+      > .share {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        margin: 8px 0;
+        > div {
+          margin: 2px;
+        }
       }
     }
     > span {
