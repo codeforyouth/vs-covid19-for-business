@@ -27,7 +27,11 @@ const CheckLoadStatus: FunctionalComponent = () => {
                 <input
                   type="checkbox"
                   value={targetItem.value}
-                  onClick={() => handleSetTarget(targetItem.value)}
+                  onClick={() =>
+                    handleSetTarget(
+                      target === targetItem.value ? null : targetItem.value,
+                    )
+                  }
                   checked={target === targetItem.value}
                 />
                 {targetItem.name}
