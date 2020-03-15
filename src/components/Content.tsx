@@ -20,17 +20,19 @@ const CheckLoadStatus: FunctionalComponent = () => {
   return (
     <Layout>
       <div>
-        <div className="check">
+        <div className="checks">
           {Targets.map((targetItem, i) => (
-            <label key={i}>
-              <input
-                type="checkbox"
-                value="enterprise"
-                onClick={() => handleSetTarget(targetItem.value)}
-                checked={target === targetItem.value}
-              />
-              {targetItem.name}
-            </label>
+            <div>
+              <label key={i}>
+                <input
+                  type="checkbox"
+                  value={targetItem.value}
+                  onClick={() => handleSetTarget(targetItem.value)}
+                  checked={target === targetItem.value}
+                />
+                {targetItem.name}
+              </label>
+            </div>
           ))}
         </div>
         <div className="categories">
@@ -56,7 +58,7 @@ const CheckLoadStatus: FunctionalComponent = () => {
         {!word &&
           !target &&
           response &&
-          response?.data?.map((item, i) => <Card key={i} {...item} />)}
+          response.data?.map((item, i) => <Card key={i} {...item} />)}
         {filteredSupports && (
           <div>
             <span>該当件数: {filteredSupports.length}件</span>
@@ -80,6 +82,24 @@ const Layout = styled.div`
     margin: 0 auto;
     max-width: ${LAYOUT_WIDTH}px;
     margin-bottom: 24px;
+    > .checks {
+      padding-top: 20px;
+      > div {
+        display: inline-block;
+        > label {
+          display: flex;
+          align-items: center;
+          letter-spacing: 0.2;
+          > input {
+            margin-right: 4px;
+            height: 20px !important;
+            width: 20px !important;
+          }
+          margin-right: 4px;
+          color: ${Colors.textBlack};
+        }
+      }
+    }
     > .categories {
       display: flex;
       flex-wrap: wrap;
