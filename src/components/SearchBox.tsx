@@ -112,6 +112,9 @@ const Container = styled.div`
       color: ${Colors.textGray};
       font-size: 30px;
       margin-top: -8px;
+      ${media.lessThan('small')`
+        margin-top: 0;
+      `}
       > a {
         color: ${Colors.textBlack} !important;
         text-decoration: none;

@@ -86,12 +86,14 @@ const Layout = styled.div`
       padding-top: 20px;
       > div {
         display: inline-block;
+        margin-right: 6px;
         > label {
           display: flex;
           align-items: center;
           letter-spacing: 0.2;
+          color: ${Colors.textBlack};
           > input {
-            margin-right: 4px;
+            margin-right: 2px;
             height: 20px !important;
             width: 20px !important;
           }
@@ -141,6 +143,9 @@ const Layout = styled.div`
   `}
   ${media.lessThan('small')`
     div {
+      > .checks {
+        text-align: center;
+      }
       > .categories {
         overflow: auto;
         flex-wrap: nowrap;

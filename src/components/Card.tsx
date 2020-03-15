@@ -69,9 +69,9 @@ const getBGColor = (type: string): string => {
     case '情報通信':
       return Colors.blue;
     case 'コミュニケーション':
-      return Colors.yellow;
-    case '医療、福祉':
       return Colors.greenBlue;
+    case '医療、福祉':
+      return Colors.yellow;
     case 'その他':
     default:
       return Colors.violet;
