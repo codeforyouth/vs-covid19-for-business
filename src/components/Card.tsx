@@ -58,19 +58,23 @@ const Card: FunctionalComponent<Props> = props => {
 
 const getBGColor = (type: string): string => {
   switch (type) {
-    case '教育、学習支援':
-      return Colors.red;
     case 'ワークスタイル（テレワーク含む）':
       return Colors.purple;
-    case '生活関連サービス、娯楽':
-      return Colors.orange;
-    case '宿泊、飲食サービス':
-      return Colors.green;
     case '情報通信':
       return Colors.blue;
     case 'コミュニケーション':
       return Colors.greenBlue;
+    case '教育、学習支援':
+    case '教育・学習支援':
+      return Colors.red;
+    case '生活関連サービス、娯楽':
+    case '生活関連サービス・娯楽':
+      return Colors.orange;
+    case '宿泊、飲食サービス':
+    case '宿泊・飲食サービス':
+      return Colors.green;
     case '医療、福祉':
+    case '医療・福祉':
       return Colors.yellow;
     case 'その他':
     default:
