@@ -34,7 +34,9 @@ const SearchBox: FunctionalComponent = () => {
           onChange={handleChangeWord}
         />
         <span class="sitedesc">
-          企業等による新型コロナウイルス感染症対策支援サービスをまとめました（出典:
+          企業等による新型コロナウイルス感染症対策支援サービスをまとめました
+          <br />
+          （出典:
           <a
             href="https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/"
             target="_blank"
@@ -99,17 +101,17 @@ const Container = styled.div`
   background-color: ${Colors.yellow};
   > h1 {
     margin: 0;
-    padding: 30px 0;
+    padding: 30px 0 20px;
     color: white;
     text-align: center;
-    font-size: 7vw;
     > img {
-      width: 50vw;
+      width: 480px;
       margin: 0 auto;
     }
     > .subtitle {
-      color: ${Colors.textBlack};
-      font-size: 36px;
+      color: ${Colors.textGray};
+      font-size: 30px;
+      margin-top: -8px;
       > a {
         color: ${Colors.textBlack} !important;
         text-decoration: none;
@@ -119,9 +121,8 @@ const Container = styled.div`
   > .searchboxid {
     text-align: center;
     > .sitedesc {
-      font-size: 80%;
+      width: 100%;
       display: inline-block;
-      width: 80vw;
       > a {
         color: black !important;
         text-decoration: underline;
@@ -141,10 +142,11 @@ const Container = styled.div`
       font-size: 12px;
       line-height: 170%;
       color: ${Colors.textBlack};
-      margin-bottom: 60px;
+      margin-bottom: 30px;
     }
     > input {
       width: 60vw;
+      max-width: 800px;
       margin: 0.5em 0.2em 0.2em 0.5em;
       font-size: 24px;
       border-radius: 48px;
@@ -152,6 +154,7 @@ const Container = styled.div`
       line-height: 1.3em;
       padding: 16px 24px;
       margin-bottom: 8px;
+      box-shadow: 0px 1px 18px rgba(0, 0, 0, 0.04);
     }
   }
   ${media.lessThan('small')`
@@ -176,6 +179,7 @@ const Container = styled.div`
         margin-bottom: 8px;
       }
       > .sitedesc {
+        padding: 0 20px;
         font-size: 9px;
         margin-bottom: 30px;
       }
