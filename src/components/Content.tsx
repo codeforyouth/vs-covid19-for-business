@@ -6,18 +6,35 @@ import { AppContainer } from '../containers';
 import { Card } from '.';
 import { LAYOUT_WIDTH } from '../constants';
 import Loader from '../assets/images/loader.svg';
-import { Colors, Categories } from '../shared';
+import { Colors, Categories, Targets } from '../shared';
 
 const CheckLoadStatus: FunctionalComponent = () => {
   const {
     supportsData: { isLoading, error, response },
     word,
+    target,
     filteredSupports,
     handleSetWord,
+    handleSetTarget,
   } = AppContainer.useContainer();
   return (
     <Layout>
       <div>
+        <div className="checks">
+          {Targets.map((targetItem, i) => (
+            <div>
+              <label key={i}>
+                <input
+                  type="checkbox"
+                  value={targetItem.value}
+                  onClick={() => handleSetTarget(targetItem.value)}
+                  checked={target === targetItem.value}
+                />
+                {targetItem.name}
+              </label>
+            </div>
+          ))}
+        </div>
         <div className="categories">
           {Categories.map(category => (
             <div
@@ -39,9 +56,10 @@ const CheckLoadStatus: FunctionalComponent = () => {
           <p>何もありません</p>
         )}
         {!word &&
+          !target &&
           response &&
-          response?.data?.map((item, i) => <Card key={i} {...item} />)}
-        {word && filteredSupports && (
+          response.data?.map((item, i) => <Card key={i} {...item} />)}
+        {filteredSupports && (
           <div>
             <span>該当件数: {filteredSupports.length}件</span>
             <div className="content">
@@ -64,6 +82,24 @@ const Layout = styled.div`
     margin: 0 auto;
     max-width: ${LAYOUT_WIDTH}px;
     margin-bottom: 24px;
+    > .checks {
+      padding-top: 20px;
+      > div {
+        display: inline-block;
+        > label {
+          display: flex;
+          align-items: center;
+          letter-spacing: 0.2;
+          > input {
+            margin-right: 4px;
+            height: 20px !important;
+            width: 20px !important;
+          }
+          margin-right: 4px;
+          color: ${Colors.textBlack};
+        }
+      }
+    }
     > .categories {
       display: flex;
       flex-wrap: wrap;
