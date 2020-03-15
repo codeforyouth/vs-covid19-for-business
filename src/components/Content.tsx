@@ -6,18 +6,33 @@ import { AppContainer } from '../containers';
 import { Card } from '.';
 import { LAYOUT_WIDTH } from '../constants';
 import Loader from '../assets/images/loader.svg';
-import { Colors, Categories } from '../shared';
+import { Colors, Categories, Targets } from '../shared';
 
 const CheckLoadStatus: FunctionalComponent = () => {
   const {
     supportsData: { isLoading, error, response },
     word,
+    target,
     filteredSupports,
     handleSetWord,
+    handleSetTarget,
   } = AppContainer.useContainer();
   return (
     <Layout>
       <div>
+        <div className="check">
+          {Targets.map((targetItem, i) => (
+            <label key={i}>
+              <input
+                type="checkbox"
+                value="enterprise"
+                onClick={() => handleSetTarget(targetItem.value)}
+                checked={target === targetItem.value}
+              />
+              {targetItem.name}
+            </label>
+          ))}
+        </div>
         <div className="categories">
           {Categories.map(category => (
             <div
@@ -39,9 +54,10 @@ const CheckLoadStatus: FunctionalComponent = () => {
           <p>何もありません</p>
         )}
         {!word &&
+          !target &&
           response &&
           response?.data?.map((item, i) => <Card key={i} {...item} />)}
-        {word && filteredSupports && (
+        {filteredSupports && (
           <div>
             <span>該当件数: {filteredSupports.length}件</span>
             <div className="content">
