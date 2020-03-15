@@ -34,7 +34,11 @@ const Card: FunctionalComponent<Props> = props => {
           <div className="list">
             <div className="item">
               <DateRange />
-              {props['開始日'] + 'から' + props['終了日'] + 'まで'}
+              {props['開始日'] &&
+                props['終了日'] &&
+                props['開始日'] + 'から' + props['終了日'] + 'まで'}
+              {props['開始日'] && !props['終了日'] && props['開始日'] + 'から'}
+              {props['終了日'] && !props['開始日'] && props['終了日'] + 'まで'}
               {props['期間備考'] && ' ※ ' + props['期間備考']}
             </div>
             <div className="item">
@@ -81,7 +85,7 @@ const CategoryLabel = styled.div<{ type?: string }>`
   display: inline-block;
   border-radius: 4px;
   ${media.lessThan('small')`
-    margin: 4px 12px 4px 0;
+    margin: 4px 8px 4px 0;
   `}
 `;
 
@@ -177,13 +181,13 @@ const Container = styled.div`
         justify-content: flex-start;
         margin-bottom: 20px;
         > .type {
-          margin: 4px 4px 4px 0;
+          margin: 4px 8px 4px 0;
           &:nth-child(even) {
            margin: 0;
           }
         }
         > .item {
-          margin: 4px 4px 4px 0;
+          margin: 4px 8px 4px 0;
         }
       }
     }
