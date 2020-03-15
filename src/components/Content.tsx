@@ -13,8 +13,9 @@ const CheckLoadStatus: FunctionalComponent = () => {
     supportsData: { isLoading, error, response },
     word,
     target,
+    category,
     filteredSupports,
-    handleSetWord,
+    handleSetCategory,
     handleSetTarget,
   } = AppContainer.useContainer();
   return (
@@ -27,7 +28,11 @@ const CheckLoadStatus: FunctionalComponent = () => {
                 <input
                   type="checkbox"
                   value={targetItem.value}
-                  onClick={() => handleSetTarget(targetItem.value)}
+                  onClick={() =>
+                    handleSetTarget(
+                      target === targetItem.value ? null : targetItem.value,
+                    )
+                  }
                   checked={target === targetItem.value}
                 />
                 {targetItem.name}
@@ -40,7 +45,7 @@ const CheckLoadStatus: FunctionalComponent = () => {
             <div
               key={category.color}
               style={{ backgroundColor: category.color }}
-              onClick={() => handleSetWord(category.name)}
+              onClick={() => handleSetCategory(category.name)}
             >
               {category.name}
             </div>
@@ -57,6 +62,7 @@ const CheckLoadStatus: FunctionalComponent = () => {
         )}
         {!word &&
           !target &&
+          !category &&
           response &&
           response.data?.map((item, i) => <Card key={i} {...item} />)}
         {filteredSupports && (
@@ -86,12 +92,14 @@ const Layout = styled.div`
       padding-top: 20px;
       > div {
         display: inline-block;
+        margin-right: 6px;
         > label {
           display: flex;
           align-items: center;
           letter-spacing: 0.2;
+          color: ${Colors.textBlack};
           > input {
-            margin-right: 4px;
+            margin-right: 2px;
             height: 20px !important;
             width: 20px !important;
           }
@@ -141,6 +149,9 @@ const Layout = styled.div`
   `}
   ${media.lessThan('small')`
     div {
+      > .checks {
+        text-align: center;
+      }
       > .categories {
         overflow: auto;
         flex-wrap: nowrap;
