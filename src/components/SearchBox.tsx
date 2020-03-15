@@ -51,7 +51,7 @@ const SearchBox: FunctionalComponent = () => {
                 data-text={Meta.title + ' | ' + Meta.description}
                 data-url={BASE_URL}
                 data-lang="ja"
-                data-size="large"
+                data-size="small"
               />
               <script
                 async
@@ -67,7 +67,7 @@ const SearchBox: FunctionalComponent = () => {
                 data-ver="3"
                 data-url={BASE_URL}
                 data-color="default"
-                data-size="large"
+                data-size="small"
                 data-count="false"
                 style="display: none;"
               />
@@ -84,7 +84,7 @@ const SearchBox: FunctionalComponent = () => {
                 data-width=""
                 data-layout="button"
                 data-action="like"
-                data-size="large"
+                data-size="small"
                 data-share="true"
               />
             </div>
@@ -156,7 +156,7 @@ const Container = styled.div`
   }
   ${media.lessThan('small')`
     > h1  {
-      padding: 60px 0 20px;
+      padding: 30px 0 20px;
       > img {
         width: 70vw;
       }
@@ -174,6 +174,10 @@ const Container = styled.div`
         line-height: 1.3em;
         padding: 16px 24px;
         margin-bottom: 8px;
+      }
+      > .sitedesc {
+        font-size: 9px;
+        margin-bottom: 30px;
       }
     }
   `}

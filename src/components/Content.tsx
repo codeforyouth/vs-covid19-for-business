@@ -104,10 +104,16 @@ const Layout = styled.div`
     }
   `}
   ${media.lessThan('small')`
-    padding: 0 16px;
     div {
       > .categories {
-        justify-content: center;
+        overflow: auto;
+        flex-wrap: nowrap;
+        > div {
+          min-width: 164px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
       }
     }
   `}

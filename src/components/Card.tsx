@@ -22,7 +22,7 @@ const Card: FunctionalComponent<Props> = props => {
                 </CategoryLabel>
               ))
             ) : (
-              <CategoryLabel type={props['分野'].trim()}>
+              <CategoryLabel type={props['分野'].trim()} className="type">
                 {props['分野']}
               </CategoryLabel>
             )}
@@ -116,13 +116,11 @@ const Container = styled.div`
       align-items: center;
       margin-bottom: 20px;
       > .type {
-        &:nth-child(even) {
-          margin: 0 8px;
-        }
+        margin: 0 8px 0 0;
       }
       > .item {
         padding: 4px 8px;
-        margin-left: 8px;
+        margin-right: 8px;
         border-radius: 4px;
         color: ${Colors.textGray};
         background-color: ${Colors.bgLightGray};
@@ -139,7 +137,7 @@ const Container = styled.div`
         align-items: center;
         color: ${Colors.textBlack};
         &:nth-child(odd) {
-          margin-bottom: 8px;
+          margin: 0px 8px 0px 0px;
         }
         > svg {
           font-size: 24px;
@@ -182,9 +180,6 @@ const Container = styled.div`
         margin-bottom: 20px;
         > .type {
           margin: 4px 8px 4px 0;
-          &:nth-child(even) {
-           margin: 0;
-          }
         }
         > .item {
           margin: 4px 8px 4px 0;
@@ -196,6 +191,8 @@ const Container = styled.div`
       justify-content: center;
       > .from {
         margin-bottom: 12px;
+        width: 100%;
+        text-align: center;
       }
       > .url {
         background-color: ${Colors.yellow};
