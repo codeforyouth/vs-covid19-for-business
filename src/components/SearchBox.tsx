@@ -82,7 +82,7 @@ const SearchBox: FunctionalComponent = () => {
             <div>
               <div
                 class="fb-like"
-                data-href="https://vs-covid19.now.sh/"
+                data-href={BASE_URL}
                 data-width=""
                 data-layout="button"
                 data-action="like"
