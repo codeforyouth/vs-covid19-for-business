@@ -72,7 +72,6 @@ const useAppContainer = (): AppContainerType => {
   const filterByWord = useCallback((supports: Support[], word: string) => {
     const filteredByWordSupports = supports.filter(
       support =>
-        support['分野'].includes(word) ||
         support['サービス名称'].includes(word) ||
         support['詳細'].includes(word) ||
         support['企業等'].includes(word),
