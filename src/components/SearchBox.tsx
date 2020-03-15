@@ -16,7 +16,11 @@ const SearchBox: FunctionalComponent = () => {
       <h1 id="title">
         <img src={images.title} alt="VS COVID-19" />
         <div class="subtitle">
-          <a href="https://twitter.com/search?q=%23%E6%B0%91%E9%96%93%E6%94%AF%E6%8F%B4%E6%83%85%E5%A0%B1%E3%83%8A%E3%83%93">
+          <a
+            href="https://twitter.com/search?q=%23%E6%B0%91%E9%96%93%E6%94%AF%E6%8F%B4%E6%83%85%E5%A0%B1%E3%83%8A%E3%83%93"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             #民間支援情報ナビ
           </a>
         </div>
