@@ -6,9 +6,11 @@ import axios, { AxiosResponse, AxiosError } from 'axios';
 export type AppContainerType = {
   word?: string | null;
   target?: string | null;
+  category?: string | null;
   supportsData: SupportsData;
   handleSetWord: (w?: string) => void;
   handleSetTarget: (w?: string) => void;
+  handleSetCategory: (w?: string) => void;
   handleSetSupports: (supports?: Support[] | null) => void;
   fetchSupports: (url: string) => void;
   filteredSupports: Support[] | null;
@@ -29,6 +31,7 @@ const initialSupportState: SupportsData = {
 const useAppContainer = (): AppContainerType => {
   const [word, setWord] = useState(null); // 単語
   const [target, setTarget] = useState(null); // 対象者チェックボックス
+  const [category, setCategory] = useState(null); // カテゴリ
   const [supportsData, setSupportsData] = useState<SupportsData>(
     initialSupportState,
   ); // 元となるデータ本体
@@ -39,6 +42,10 @@ const useAppContainer = (): AppContainerType => {
   // setState用
   const handleSetWord = useCallback((w?: string): void => setWord(w), []);
   const handleSetTarget = useCallback((w?: string): void => setTarget(w), []);
+  const handleSetCategory = useCallback(
+    (w?: string): void => setCategory(w),
+    [],
+  );
   const handleSetSupports = useCallback((supports?: Support[] | null): void => {
     setSupportsData({
       ...supportsData,
@@ -65,12 +72,23 @@ const useAppContainer = (): AppContainerType => {
   const filterByWord = useCallback((supports: Support[], word: string) => {
     const filteredByWordSupports = supports.filter(
       support =>
+        support['分野'].includes(word) ||
         support['サービス名称'].includes(word) ||
         support['詳細'].includes(word) ||
         support['企業等'].includes(word),
     );
     setFilteredSupports(filteredByWordSupports);
   }, []);
+
+  const filterByCategory = useCallback(
+    (supports: Support[], category: string) => {
+      const filteredByCategorySupports = supports.filter(support =>
+        support['分野'].includes(category),
+      );
+      setFilteredSupports(filteredByCategorySupports);
+    },
+    [],
+  );
 
   // 対象者検索
   const filterByTarget = useCallback((supports: Support[], target: string) => {
@@ -89,29 +107,41 @@ const useAppContainer = (): AppContainerType => {
   // 絞り込み処理
   useEffect(() => {
     const supports = supportsData?.response?.data;
-    if (!supports || (!word && !target)) return;
-    if (target && !word) {
-      filterByTarget(supports, target);
-      return;
-    }
-    if (word && !target) {
+    if (!supports || (!word && !target && !category))
+      return setFilteredSupports(null);
+    if (word && !target && !category) {
       filterByWord(supports, word);
-      return;
     }
-    if (target && word) {
+    if (!word && target && !category) {
       filterByTarget(supports, target);
-      filterByWord(supports, word);
-      return;
     }
-  }, [word, target]);
+    if (!word && !target && category) {
+      filterByCategory(supports, category);
+    }
+    if (word && target && !category) {
+      filterByWord(supports, word);
+      filterByTarget(filteredSupports, target);
+    }
+    if (!word && target && category) {
+      filterByTarget(supports, target);
+      filterByCategory(filteredSupports, category);
+    }
+    if (word && target && category) {
+      filterByWord(supports, word);
+      filterByTarget(filteredSupports, target);
+      filterByCategory(filteredSupports, category);
+    }
+  }, [word, target, category]);
 
   return {
     word,
     supportsData,
     filteredSupports,
     target,
+    category,
     handleSetWord,
     handleSetTarget,
+    handleSetCategory,
     handleSetSupports,
     fetchSupports,
   };

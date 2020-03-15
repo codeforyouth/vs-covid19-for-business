@@ -13,8 +13,9 @@ const CheckLoadStatus: FunctionalComponent = () => {
     supportsData: { isLoading, error, response },
     word,
     target,
+    category,
     filteredSupports,
-    handleSetWord,
+    handleSetCategory,
     handleSetTarget,
   } = AppContainer.useContainer();
   return (
@@ -44,7 +45,7 @@ const CheckLoadStatus: FunctionalComponent = () => {
             <div
               key={category.color}
               style={{ backgroundColor: category.color }}
-              onClick={() => handleSetWord(category.name)}
+              onClick={() => handleSetCategory(category.name)}
             >
               {category.name}
             </div>
@@ -61,6 +62,7 @@ const CheckLoadStatus: FunctionalComponent = () => {
         )}
         {!word &&
           !target &&
+          !category &&
           response &&
           response.data?.map((item, i) => <Card key={i} {...item} />)}
         {filteredSupports && (
