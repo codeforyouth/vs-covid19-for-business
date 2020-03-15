@@ -78,6 +78,7 @@ const useAppContainer = (): AppContainerType => {
         support['企業等'].includes(word),
     );
     setFilteredSupports(filteredByWordSupports);
+    return filteredByWordSupports;
   }, []);
 
   const filterByCategory = useCallback(
@@ -86,6 +87,7 @@ const useAppContainer = (): AppContainerType => {
         support['分野'].includes(category),
       );
       setFilteredSupports(filteredByCategorySupports);
+      return filteredByCategorySupports;
     },
     [],
   );
@@ -102,6 +104,7 @@ const useAppContainer = (): AppContainerType => {
       return support['対象者'].includes(targetArray.toString());
     });
     setFilteredSupports(filteredByTargetSupports);
+    return filteredByTargetSupports;
   }, []);
 
   // 絞り込み処理
@@ -119,17 +122,17 @@ const useAppContainer = (): AppContainerType => {
       filterByCategory(supports, category);
     }
     if (word && target && !category) {
-      filterByWord(supports, word);
-      filterByTarget(filteredSupports, target);
+      const wordSupports = filterByWord(supports, word);
+      filterByTarget(wordSupports, target);
     }
     if (!word && target && category) {
-      filterByTarget(supports, target);
-      filterByCategory(filteredSupports, category);
+      const targetSupports = filterByTarget(supports, target);
+      filterByCategory(targetSupports, category);
     }
     if (word && target && category) {
-      filterByWord(supports, word);
-      filterByTarget(filteredSupports, target);
-      filterByCategory(filteredSupports, category);
+      const wordSupports = filterByWord(supports, word);
+      const targetSupports = filterByTarget(wordSupports, target);
+      filterByCategory(targetSupports, category);
     }
   }, [word, target, category]);
 
