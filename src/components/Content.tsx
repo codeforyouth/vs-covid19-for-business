@@ -41,13 +41,18 @@ const CheckLoadStatus: FunctionalComponent = () => {
           ))}
         </div>
         <div className="categories">
-          {Categories.map(category => (
+          {Categories.map(ct => (
             <div
-              key={category.color}
-              style={{ backgroundColor: category.color }}
-              onClick={() => handleSetCategory(category.name)}
+              key={ct.color}
+              style={{
+                backgroundColor: ct.color,
+                opacity: ct.name === category ? '0.7' : '1.0',
+              }}
+              onClick={() =>
+                handleSetCategory(category === ct.name ? null : ct.name)
+              }
             >
-              {category.name}
+              {ct.name}
             </div>
           ))}
         </div>
