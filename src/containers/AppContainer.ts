@@ -4,8 +4,8 @@ import { Support } from '../typings';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
 export type AppContainerType = {
-  word?: string;
-  target?: string;
+  word?: string | null;
+  target?: string | null;
   supportsData: SupportsData;
   handleSetWord: (w?: string) => void;
   handleSetTarget: (w?: string) => void;
@@ -27,20 +27,18 @@ const initialSupportState: SupportsData = {
 };
 
 const useAppContainer = (): AppContainerType => {
-  const [word, setWord] = useState(null);
-  const [target, setTarget] = useState(null);
+  const [word, setWord] = useState(null); // 単語
+  const [target, setTarget] = useState(null); // 対象者チェックボックス
   const [supportsData, setSupportsData] = useState<SupportsData>(
     initialSupportState,
-  );
+  ); // 元となるデータ本体
   const [filteredSupports, setFilteredSupports] = useState<Support[] | null>(
     null,
-  );
-  const [targetSupports, setTargetSupports] = useState<Support[] | null>(null);
+  ); // 絞られた支援情報
 
+  // setState用
   const handleSetWord = useCallback((w?: string): void => setWord(w), []);
-
   const handleSetTarget = useCallback((w?: string): void => setTarget(w), []);
-
   const handleSetSupports = useCallback((supports?: Support[] | null): void => {
     setSupportsData({
       ...supportsData,
@@ -63,45 +61,49 @@ const useAppContainer = (): AppContainerType => {
     }
   }, []);
 
-  // 単語による絞り込み(検索バー or カテゴリ選択)
-  useEffect(() => {
-    const supports = supportsData?.response?.data;
-    if (!supports || !word) return;
-    if (target) {
-      const filterSupportsFromTarget = targetSupports.filter(
-        support =>
-          support.サービス名称.includes(word) ||
-          support.詳細.includes(word) ||
-          support.分野.includes(word),
-      );
-      setFilteredSupports(filterSupportsFromTarget);
-    } else {
-      const filteredSupports = supports.filter(
-        support =>
-          support.サービス名称.includes(word) ||
-          support.詳細.includes(word) ||
-          support.分野.includes(word),
-      );
-      setFilteredSupports(filteredSupports);
-    }
-  }, [word]);
+  // 文字検索
+  const filterByWord = useCallback((supports: Support[], word: string) => {
+    const filteredByWordSupports = supports.filter(
+      support =>
+        support['サービス名称'].includes(word) ||
+        support['詳細'].includes(word) ||
+        support['企業等'].includes(word),
+    );
+    setFilteredSupports(filteredByWordSupports);
+  }, []);
 
-  // 対象者の絞り込み(チェックボックス)
-  useEffect(() => {
-    const supports = supportsData?.response?.data;
-    if (!supports || !target) return;
+  // 対象者検索
+  const filterByTarget = useCallback((supports: Support[], target: string) => {
     const targetArray: string[] | string = target.split(',');
-    const filteredSupports = supports.filter(support => {
+    const filteredByTargetSupports = supports.filter(support => {
       if (targetArray?.length > 1) {
         return (targetArray as string[])
           .map(t => support['対象者'].includes(t))
           .some(result => result);
       }
-      return support['対象者'].includes(targetArray as string);
+      return support['対象者'].includes(targetArray.toString());
     });
-    setTargetSupports(filteredSupports);
-    setFilteredSupports(filteredSupports);
-  }, [target]);
+    setFilteredSupports(filteredByTargetSupports);
+  }, []);
+
+  // 絞り込み処理
+  useEffect(() => {
+    const supports = supportsData?.response?.data;
+    if (!supports || (!word && !target)) return;
+    if (target && !word) {
+      filterByTarget(supports, target);
+      return;
+    }
+    if (word && !target) {
+      filterByWord(supports, word);
+      return;
+    }
+    if (target && word) {
+      filterByTarget(supports, target);
+      filterByWord(supports, word);
+      return;
+    }
+  }, [word, target]);
 
   return {
     word,
