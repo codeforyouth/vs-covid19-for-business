@@ -156,7 +156,7 @@ const Container = styled.div`
   }
   ${media.lessThan('small')`
     > h1  {
-      padding: 60px 0 20px;
+      padding: 30px 0 20px;
       > img {
         width: 70vw;
       }
@@ -174,6 +174,10 @@ const Container = styled.div`
         line-height: 1.3em;
         padding: 16px 24px;
         margin-bottom: 8px;
+      }
+      > .sitedesc {
+        font-size: 9px;
+        margin-bottom: 30px;
       }
     }
   `}
