@@ -104,7 +104,7 @@ const Container = styled.div`
     box-shadow: 0px 1px 18px rgba(0, 0, 0, 0.12);
     > .bottom {
       > .url {
-        background-color: ${Colors.yellow};
+        background-color: ${Colors.purple};
         color: ${Colors.white};
       }
     }
@@ -164,7 +164,7 @@ const Container = styled.div`
     > .url {
       cursor: pointer;
       border-radius: 100px;
-      border: 1px solid ${Colors.yellow};
+      border: 1px solid ${Colors.purple};
       background-color: ${Colors.white};
       font-weight: bold;
       text-align: center;
@@ -172,7 +172,7 @@ const Container = styled.div`
       font-weight: normal;
       display: block;
       text-decoration: none;
-      color: ${Colors.yellow};
+      color: ${Colors.purple};
     }
   }
   ${media.lessThan('small')`
@@ -199,8 +199,6 @@ const Container = styled.div`
         text-align: center;
       }
       > .url {
-        background-color: ${Colors.yellow};
-        color: ${Colors.white};
         margin-bottom: 8px;
       }
     }

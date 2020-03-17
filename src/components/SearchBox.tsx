@@ -98,7 +98,7 @@ const SearchBox: FunctionalComponent = () => {
 };
 
 const Container = styled.div`
-  background-color: ${Colors.yellow};
+  background-color: ${Colors.purple};
   > h1 {
     margin: 0;
     padding: 30px 0 20px;
@@ -116,7 +116,7 @@ const Container = styled.div`
         margin-top: 0;
       `}
       > a {
-        color: ${Colors.textBlack} !important;
+        color: ${Colors.white} !important;
         text-decoration: none;
       }
     }
@@ -124,10 +124,11 @@ const Container = styled.div`
   > .searchboxid {
     text-align: center;
     > .sitedesc {
+      color: ${Colors.white};
       width: 100%;
       display: inline-block;
       > a {
-        color: black !important;
+        color: ${Colors.white} !important;
         text-decoration: underline;
       }
       > .share {
