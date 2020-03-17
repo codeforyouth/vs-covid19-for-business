@@ -111,6 +111,7 @@ const Container = styled.div`
     > .subtitle {
       color: ${Colors.textGray};
       font-size: 30px;
+      font-weight: normal;
       margin-top: -8px;
       ${media.lessThan('small')`
         margin-top: 0;
