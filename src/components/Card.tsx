@@ -33,7 +33,9 @@ const Card: FunctionalComponent<Props> = props => {
           <p>{props['詳細']}</p>
           <div className="list">
             <div className="item">
-              <DateRange />
+              {(props['開始日'] || props['終了日'] || props['期間備考']) && (
+                <DateRange />
+              )}
               {props['開始日'] &&
                 props['終了日'] &&
                 props['開始日'] + 'から' + props['終了日'] + 'まで'}
@@ -42,7 +44,7 @@ const Card: FunctionalComponent<Props> = props => {
               {props['期間備考'] && ' ※ ' + props['期間備考']}
             </div>
             <div className="item">
-              <Person />
+              {props['対象者'] && <Person />}
               {props['対象者']}
             </div>
           </div>
