@@ -36,16 +36,22 @@ const Card: FunctionalComponent<Props> = props => {
               {(props['開始日'] || props['終了日'] || props['期間備考']) && (
                 <DateRange />
               )}
-              {props['開始日'] &&
-                props['終了日'] &&
-                props['開始日'] + 'から' + props['終了日'] + 'まで'}
-              {props['開始日'] && !props['終了日'] && props['開始日'] + 'から'}
-              {props['終了日'] && !props['開始日'] && props['終了日'] + 'まで'}
-              {props['期間備考'] && ' ※ ' + props['期間備考']}
+              <OneLine>
+                {props['開始日'] &&
+                  props['終了日'] &&
+                  props['開始日'] + 'から' + props['終了日'] + 'まで'}
+                {props['開始日'] &&
+                  !props['終了日'] &&
+                  props['開始日'] + 'から'}
+                {props['終了日'] &&
+                  !props['開始日'] &&
+                  props['終了日'] + 'まで'}
+                {props['期間備考'] && ' ※ ' + props['期間備考']}
+              </OneLine>
             </div>
             <div className="item">
               {props['対象者'] && <Person />}
-              {props['対象者']}
+              <OneLine>{props['対象者']}</OneLine>
             </div>
           </div>
         </div>
@@ -83,6 +89,15 @@ const getBGColor = (type: string): string => {
       return Colors.violet;
   }
 };
+
+const OneLine = styled.div`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  &:hover {
+    white-space: normal;
+  }
+`;
 
 const CategoryLabel = styled.div<{ type?: string }>`
   color: white;
