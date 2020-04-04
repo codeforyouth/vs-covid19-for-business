@@ -21,13 +21,13 @@ export type AppContainerType = {
 type SupportsData = {
   response: AxiosResponse<Support[]> | null;
   error: AxiosError | null;
-  isLoading: boolean;
+  status?: 'loading' | 'success' | 'fail';
 };
 
 const initialSupportState: SupportsData = {
   response: null,
   error: null,
-  isLoading: false,
+  status: undefined,
 };
 
 const useAppContainer = (): AppContainerType => {
@@ -57,16 +57,25 @@ const useAppContainer = (): AppContainerType => {
 
   // 初期読込
   const fetchSupports = useCallback(async (url: string): Promise<void> => {
-    setSupportsData({ ...supportsData, isLoading: true });
+    setSupportsData({
+      ...supportsData,
+      status: 'loading',
+    });
     try {
       const res: AxiosResponse<Support[] | null> = await axios.get(url);
-      setSupportsData(prevState => ({ ...prevState, response: res }));
+      setSupportsData(prevState => ({
+        ...prevState,
+        response: res,
+        status: 'success',
+      }));
       return Promise.resolve();
     } catch (err) {
-      setSupportsData(prevState => ({ ...prevState, error: err }));
+      setSupportsData(prevState => ({
+        ...prevState,
+        error: err,
+        status: 'fail',
+      }));
       return Promise.reject();
-    } finally {
-      setSupportsData(prevState => ({ ...prevState, isLoading: false }));
     }
   }, []);
 
