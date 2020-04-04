@@ -10,7 +10,10 @@ const SearchBox: FunctionalComponent = () => {
   const { word, handleSetWord } = AppContainer.useContainer();
   const handleChangeWord = (
     e: h.JSX.TargetedEvent<HTMLInputElement, InputEvent>,
-  ): void => handleSetWord((e.target as HTMLInputElement)?.value);
+  ): void => {
+    const value = (e.target as HTMLInputElement)?.value;
+    handleSetWord(value === '' ? null : value);
+  };
   return (
     <Container>
       <h1 id="title">
@@ -58,7 +61,7 @@ const SearchBox: FunctionalComponent = () => {
               <script
                 async
                 src="https://platform.twitter.com/widgets.js"
-                charset="utf-8"
+                charSet="utf-8"
               />
             </div>
             <div>
@@ -75,8 +78,8 @@ const SearchBox: FunctionalComponent = () => {
               />
               <script
                 src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js"
-                async="async"
-                defer="defer"
+                async
+                defer
               />
             </div>
             <div>

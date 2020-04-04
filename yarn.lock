@@ -5351,6 +5351,11 @@ posthtml@^0.12.0:
     posthtml-parser "^0.4.1"
     posthtml-render "^1.1.5"
 
+preact-router@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/preact-router/-/preact-router-3.2.1.tgz#c7d12d8fc7a60bfbe5cadf23a234551bec783468"
+  integrity sha512-KEN2VN1DxUlTwzW5IFkF13YIA2OdQ2OvgJTkQREF+AA2NrHRLaGbB68EjS4IeZOa1shvQ1FvEm3bSLta4sXBhg==
+
 preact@^10.3.3:
   version "10.3.3"
   resolved "https://registry.yarnpkg.com/preact/-/preact-10.3.3.tgz#31a949cdc89dd1cf72bc2b94f80ad55d1ac8c7e6"

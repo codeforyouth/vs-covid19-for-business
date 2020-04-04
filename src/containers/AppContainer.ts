@@ -1,7 +1,9 @@
 import { useState, useCallback, useEffect } from 'preact/hooks';
+import { route } from 'preact-router';
 import { createContainer } from 'unstated-next';
 import { Support } from '../typings';
 import axios, { AxiosResponse, AxiosError } from 'axios';
+import { RouteProps } from '../App';
 
 export type AppContainerType = {
   word?: string | null;
@@ -19,13 +21,13 @@ export type AppContainerType = {
 type SupportsData = {
   response: AxiosResponse<Support[]> | null;
   error: AxiosError | null;
-  isLoading: boolean;
+  status?: 'loading' | 'success' | 'fail';
 };
 
 const initialSupportState: SupportsData = {
   response: null,
   error: null,
-  isLoading: false,
+  status: undefined,
 };
 
 const useAppContainer = (): AppContainerType => {
@@ -55,16 +57,25 @@ const useAppContainer = (): AppContainerType => {
 
   // 初期読込
   const fetchSupports = useCallback(async (url: string): Promise<void> => {
-    setSupportsData({ ...supportsData, isLoading: true });
+    setSupportsData({
+      ...supportsData,
+      status: 'loading',
+    });
     try {
       const res: AxiosResponse<Support[] | null> = await axios.get(url);
-      setSupportsData(prevState => ({ ...prevState, response: res }));
+      setSupportsData(prevState => ({
+        ...prevState,
+        response: res,
+        status: 'success',
+      }));
       return Promise.resolve();
     } catch (err) {
-      setSupportsData(prevState => ({ ...prevState, error: err }));
+      setSupportsData(prevState => ({
+        ...prevState,
+        error: err,
+        status: 'fail',
+      }));
       return Promise.reject();
-    } finally {
-      setSupportsData(prevState => ({ ...prevState, isLoading: false }));
     }
   }, []);
 
@@ -133,6 +144,16 @@ const useAppContainer = (): AppContainerType => {
       const targetSupports = filterByTarget(wordSupports, target);
       filterByCategory(targetSupports, category);
     }
+    const paramsObj: RouteProps['matches'] = {
+      q: word,
+      targets: target,
+      categories: category,
+    };
+    const queries = Object.entries(paramsObj)
+      .filter(([_key, value]) => value != null)
+      .map(([key, val]) => `${key}=${val}`)
+      .join('&');
+    route(`/?${queries}`);
   }, [word, target, category]);
 
   return {

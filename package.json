@@ -46,6 +46,7 @@
     "@material-ui/icons": "^4.9.1",
     "axios": "^0.19.2",
     "preact": "^10.3.3",
+    "preact-router": "^3.2.1",
     "styled-components": "^5.0.1",
     "styled-media-query": "^2.1.2",
     "unstated-next": "^1.1.0"

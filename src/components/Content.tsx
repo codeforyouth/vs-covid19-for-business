@@ -10,7 +10,7 @@ import { Colors, Categories, Targets } from '../shared';
 
 const CheckLoadStatus: FunctionalComponent = () => {
   const {
-    supportsData: { isLoading, error, response },
+    supportsData: { status, error, response },
     word,
     target,
     category,
@@ -56,13 +56,13 @@ const CheckLoadStatus: FunctionalComponent = () => {
             </div>
           ))}
         </div>
-        {isLoading && (
+        {status === (undefined || 'loading') && (
           <div className="loader">
             <img src={Loader} alt="読込中" />
           </div>
         )}
-        {error && <p>{error.name + ':' + error.message}</p>}
-        {!isLoading && (!response || (word && !filteredSupports)) && (
+        {status === 'fail' && <p>{error.name + ':' + error.message}</p>}
+        {status == 'success' && (!response || (word && !filteredSupports)) && (
           <p>何もありません</p>
         )}
         {!word &&
