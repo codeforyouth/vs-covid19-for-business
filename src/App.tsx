@@ -1,13 +1,13 @@
 import { h, render, FunctionalComponent, ComponentChild } from 'preact';
-import { useEffect } from 'preact/hooks';
-import Router, { Route } from 'preact-router';
+import { useEffect, useState, useCallback } from 'preact/hooks';
+import Router, { Route, route } from 'preact-router';
 import { SHEET_URL } from './constants';
 import { AppContainer } from './containers';
 import { SearchBox, Content } from './components';
 import GlobalStyle from './styles';
 
-type MatchKeys = 'q' | 'target' | 'category';
-type RouteProps = {
+type MatchKeys = 'q' | 'targets' | 'categories';
+export type RouteProps = {
   matches: { [key in MatchKeys]: string };
   url: string;
   path: string;
@@ -15,26 +15,41 @@ type RouteProps = {
 
 const AppComponent: FunctionalComponent<RouteProps &
   ComponentChild> = props => {
+  const [initial, toggleInitial] = useState(true);
   const {
     fetchSupports,
     handleSetWord,
     handleSetTarget,
     handleSetCategory,
     supportsData,
+    word,
+    target,
+    category,
   } = AppContainer.useContainer();
+
+  const setStateFromParams = useCallback(() => {
+    const { q, targets, categories } = props.matches;
+    if (supportsData.response) {
+      if (initial) {
+        if (q) handleSetWord(q);
+        if (targets) handleSetTarget(targets);
+        if (categories) handleSetCategory(categories);
+        return toggleInitial(false);
+      }
+      if (!word && !target && !category) {
+        route('/');
+        return;
+      }
+    }
+  }, [props.matches]);
 
   useEffect(() => {
     fetchSupports(SHEET_URL);
   }, []);
 
   useEffect(() => {
-    const { q, target, category } = props.matches;
-    if (supportsData.response) {
-      if (q) handleSetWord(q);
-      if (target) handleSetTarget(target);
-      if (category) handleSetCategory(category);
-    }
-  }, [props.matches]);
+    setStateFromParams();
+  }, [setStateFromParams]);
 
   return (
     <div>

@@ -1,7 +1,9 @@
 import { useState, useCallback, useEffect } from 'preact/hooks';
+import { route } from 'preact-router';
 import { createContainer } from 'unstated-next';
 import { Support } from '../typings';
 import axios, { AxiosResponse, AxiosError } from 'axios';
+import { RouteProps } from '../App';
 
 export type AppContainerType = {
   word?: string | null;
@@ -133,6 +135,16 @@ const useAppContainer = (): AppContainerType => {
       const targetSupports = filterByTarget(wordSupports, target);
       filterByCategory(targetSupports, category);
     }
+    const paramsObj: RouteProps['matches'] = {
+      q: word,
+      targets: target,
+      categories: category,
+    };
+    const queries = Object.entries(paramsObj)
+      .filter(([_key, value]) => value != null)
+      .map(([key, val]) => `${key}=${val}`)
+      .join('&');
+    route(`/?${queries}`);
   }, [word, target, category]);
 
   return {

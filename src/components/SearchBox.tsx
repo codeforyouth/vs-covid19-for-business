@@ -10,7 +10,10 @@ const SearchBox: FunctionalComponent = () => {
   const { word, handleSetWord } = AppContainer.useContainer();
   const handleChangeWord = (
     e: h.JSX.TargetedEvent<HTMLInputElement, InputEvent>,
-  ): void => handleSetWord((e.target as HTMLInputElement)?.value);
+  ): void => {
+    const value = (e.target as HTMLInputElement)?.value;
+    handleSetWord(value === '' ? null : value);
+  };
   return (
     <Container>
       <h1 id="title">
