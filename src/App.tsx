@@ -15,7 +15,7 @@ export type RouteProps = {
 
 const AppComponent: FunctionalComponent<RouteProps &
   ComponentChild> = props => {
-  const [initial, toggleInitial] = useState(true);
+  const [updatedParams, toggleUpdatedParams] = useState(false);
   const {
     fetchSupports,
     handleSetWord,
@@ -29,19 +29,20 @@ const AppComponent: FunctionalComponent<RouteProps &
 
   const setStateFromParams = useCallback(() => {
     const { q, targets, categories } = props.matches;
-    if (supportsData.response) {
-      if (initial) {
+    if (supportsData.status === 'success') {
+      if (!updatedParams) {
         if (q) handleSetWord(q);
         if (targets) handleSetTarget(targets);
         if (categories) handleSetCategory(categories);
-        return toggleInitial(false);
+        toggleUpdatedParams(true);
+        return;
       }
       if (!word && !target && !category) {
         route('/');
         return;
       }
     }
-  }, [props.matches]);
+  }, [props.matches, supportsData.status]);
 
   useEffect(() => {
     fetchSupports(SHEET_URL);
