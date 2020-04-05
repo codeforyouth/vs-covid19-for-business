@@ -6,10 +6,10 @@ export const LAYOUT_WIDTH = 920;
 type keys = 'development' | 'production';
 export const BASE_URL = {
   development: 'http://localhost:1234',
-  production: 'https://covid19-support.info',
+  production: 'https://covid19-business-support.now.sh/',
 }[(process.env.NODE_ENV as keys) || 'development'];
 
 export const Meta = {
-  title: 'VS COVID-19 #民間支援情報ナビ',
-  description: '企業等による新型コロナウイルス感染症対策支援サービスまとめ',
+  title: 'VS COVID-19 #事業者向け支援情報ナビ',
+  description: '行政機関による新型コロナウイルス感染症対策支援情報まとめ',
 };

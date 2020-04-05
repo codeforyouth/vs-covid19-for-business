@@ -24,7 +24,7 @@ const SearchBox: FunctionalComponent = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            #民間補助金ナビ
+            #事業者向け支援情報ナビ
           </a>
         </div>
       </h1>
