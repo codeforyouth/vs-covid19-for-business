@@ -1,6 +1,6 @@
 import { h, render, FunctionalComponent, ComponentChild } from 'preact';
-import { useEffect, useState, useCallback } from 'preact/hooks';
-import Router, { Route, route } from 'preact-router';
+import { useEffect } from 'preact/hooks';
+import Router, { Route } from 'preact-router';
 import { SHEET_URL } from './constants';
 import { AppContainer } from './containers';
 import { SearchBox, Content } from './components';
@@ -15,42 +15,11 @@ export type RouteProps = {
 
 const AppComponent: FunctionalComponent<RouteProps &
   ComponentChild> = props => {
-  const [updatedParams, toggleUpdatedParams] = useState(false);
-  const {
-    fetchSupports,
-    handleSetWord,
-    handleSetTarget,
-    handleSetCategory,
-    supportsData,
-    word,
-    target,
-    category,
-  } = AppContainer.useContainer();
-
-  const setStateFromParams = useCallback(() => {
-    const { q, targets, categories } = props.matches;
-    if (supportsData.status === 'success') {
-      if (!updatedParams) {
-        if (q) handleSetWord(q);
-        if (targets) handleSetTarget(targets);
-        if (categories) handleSetCategory(categories);
-        toggleUpdatedParams(true);
-        return;
-      }
-      if (!word && !target && !category) {
-        route('/');
-        return;
-      }
-    }
-  }, [props.matches, supportsData.status]);
+  const { fetchSupports } = AppContainer.useContainer();
 
   useEffect(() => {
     fetchSupports(SHEET_URL);
   }, []);
-
-  useEffect(() => {
-    setStateFromParams();
-  }, [setStateFromParams]);
 
   return (
     <div>
