@@ -3,17 +3,19 @@ import styled from 'styled-components';
 import media from 'styled-media-query';
 import { AppContainer } from '../containers';
 import images from '../assets/images/*.png';
-import { Colors, Industries } from '../shared';
+import { Colors, Industries, Purposes } from '../shared';
 import { BASE_URL, Meta } from '../constants';
 import { RouteProps } from '../App';
 
 const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
   const {
+    fetchSupports,
     word,
     industryId,
+    purposeId,
     handleSetWord,
-    fetchSupports,
     handleSetIndustryId,
+    handleSetPurposeId,
   } = AppContainer.useContainer();
   const handleChangeWord = (
     e: h.JSX.TargetedEvent<HTMLInputElement, InputEvent>,
@@ -25,7 +27,14 @@ const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
     e: h.JSX.TargetedEvent<HTMLSelectElement, InputEvent>,
   ): void => {
     const value = (e.target as HTMLInputElement)?.value;
-    handleSetIndustryId(value);
+    handleSetIndustryId(value === '' ? null : value);
+    fetchSupports(props.matches);
+  };
+  const handleChangePurposeId = (
+    e: h.JSX.TargetedEvent<HTMLSelectElement, InputEvent>,
+  ): void => {
+    const value = (e.target as HTMLInputElement)?.value;
+    handleSetPurposeId(value === '' ? null : value);
     fetchSupports(props.matches);
   };
   const handleKeyDown = (e: KeyboardEvent): void => {
@@ -68,6 +77,20 @@ const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
                 selected={Number(industryId) === industry.value}
               >
                 {industry.name}
+              </option>
+            ))}
+          </select>
+          <select name="purposes" onChange={handleChangePurposeId}>
+            <option value={null} selected>
+              目的の種類で絞る
+            </option>
+            {Purposes.map(purpose => (
+              <option
+                key={purpose.value}
+                value={purpose.value}
+                selected={Number(purposeId) === purpose.value}
+              >
+                {purpose.name}
               </option>
             ))}
           </select>

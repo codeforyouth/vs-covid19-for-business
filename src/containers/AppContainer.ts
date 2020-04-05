@@ -9,10 +9,12 @@ import { API_BASE_URL } from '../constants';
 
 export type AppContainerType = {
   word?: string | null;
-  industryId?: number | null;
+  industryId?: string | null;
+  purposeId?: string | null;
   supportsData: SupportsData;
   handleSetWord: (w?: string) => void;
   handleSetIndustryId: (value?: string | null) => void;
+  handleSetPurposeId: (value?: string | null) => void;
   fetchSupports: (matches?: RouteProps['matches']) => void;
   handleSetSupports: (supports?: Data | null) => void;
 };
@@ -32,6 +34,7 @@ const initialSupportState: SupportsData = {
 const useAppContainer = (): AppContainerType => {
   const [word, setWord] = useState(null);
   const [industryId, setIndustryId] = useState(null);
+  const [purposeId, setPurposeId] = useState(null);
   const [supportsData, setSupportsData] = useState<SupportsData>(
     initialSupportState,
   );
@@ -39,6 +42,10 @@ const useAppContainer = (): AppContainerType => {
   const handleSetWord = useCallback((w?: string): void => setWord(w), []);
   const handleSetIndustryId = useCallback(
     (value?: string | null): void => setIndustryId(value),
+    [],
+  );
+  const handleSetPurposeId = useCallback(
+    (value?: string | null): void => setPurposeId(value),
     [],
   );
 
@@ -61,6 +68,9 @@ const useAppContainer = (): AppContainerType => {
       }
       if (matches?.industry_category) {
         requestURL = `${requestURL}&industry_category=${matches.industry_category}`;
+      }
+      if (matches?.purpose_category) {
+        requestURL = `${requestURL}&purpose_category=${matches.purpose_category}`;
       }
       try {
         const res: AxiosResponse<Data | null> = await axios.get(requestURL);
@@ -86,13 +96,14 @@ const useAppContainer = (): AppContainerType => {
     const paramsObj: RouteProps['matches'] = {
       q: word,
       industry_category: industryId,
+      purpose_category: purposeId,
     };
     const queries = Object.entries(paramsObj)
       .filter(([_key, value]) => value != null)
       .map(([key, val]) => `${key}=${val}`)
       .join('&');
     route(queries ? `/?${queries}` : '/');
-  }, [word, industryId]);
+  }, [word, industryId, purposeId]);
 
   useEffect(() => {
     createSearchParams();
@@ -101,9 +112,11 @@ const useAppContainer = (): AppContainerType => {
   return {
     word,
     industryId,
+    purposeId,
     supportsData,
     handleSetWord,
     handleSetIndustryId,
+    handleSetPurposeId,
     handleSetSupports,
     fetchSupports,
   };
