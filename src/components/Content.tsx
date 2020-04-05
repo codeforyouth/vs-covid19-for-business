@@ -21,9 +21,20 @@ const CheckLoadStatus: FunctionalComponent = () => {
           </div>
         )}
         {status === 'fail' && <p>{error.name + ':' + error.message}</p>}
-        {status == 'success' && !response && <p>何もありません</p>}
-        {response &&
-          response.data.items?.map((item, i) => <Card key={i} {...item} />)}
+        {status === 'success' &&
+          (response.data.total === 0 ? (
+            <p>該当する支援情報がみつかりませんでした 🙇‍♂️</p>
+          ) : (
+            <div>
+              <span>該当件数: {response.data.total}件</span>
+              <div className="content">
+                {response &&
+                  response.data.items?.map((item, i) => (
+                    <Card key={i} {...item} />
+                  ))}
+              </div>
+            </div>
+          ))}
       </div>
     </Layout>
   );
