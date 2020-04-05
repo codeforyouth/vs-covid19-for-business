@@ -6,50 +6,57 @@ import { Support } from '../typings';
 import { Colors } from '../shared';
 import DateRange from '@material-ui/icons/DateRange';
 import Person from '@material-ui/icons/PermIdentity';
+import { DETAIL_BASE_URL } from '../constants';
 
 type Props = Support;
 const Card: FunctionalComponent<Props> = props => {
   return (
-    <Container>
-      <div className="top">
-        <div className="tags">
-          {props.stage_categories?.length > 1 &&
-            props.stage_categories.map(stage => (
-              <CategoryLabel key={stage.id} className="type">
-                {stage.name}
-              </CategoryLabel>
-            ))}
-          {props.service_categories?.length > 1 &&
-            props.service_categories.map(service => (
-              <CategoryLabel key={service.id} className="type">
-                {service.name}
-              </CategoryLabel>
-            ))}
-          <div className="item">{props?.keywords[0]}</div>
-        </div>
-        <h2>{props.title}</h2>
-        <p>{props.summary}</p>
-        <div className="list">
-          <div className="item">
-            {props.reception_start_date && <DateRange />}
-            <OneLine>
-              {props.reception_start_date &&
-                `${props.reception_start_date}から`}
-            </OneLine>
+    <a
+      href={`${DETAIL_BASE_URL}/${props.id}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <Container>
+        <div className="top">
+          <div className="tags">
+            {props.stage_categories?.length > 1 &&
+              props.stage_categories.map(stage => (
+                <CategoryLabel key={stage.id} className="type">
+                  {stage.name}
+                </CategoryLabel>
+              ))}
+            {props.service_categories?.length > 1 &&
+              props.service_categories.map(service => (
+                <CategoryLabel key={service.id} className="type">
+                  {service.name}
+                </CategoryLabel>
+              ))}
+            <div className="item">{props?.keywords[0]}</div>
           </div>
-          <div className="item">
-            {props.target && <Person />}
-            <OneLine>{props.target}</OneLine>
+          <h2>{props.title}</h2>
+          <p>{props.summary}</p>
+          <div className="list">
+            <div className="item">
+              {props.reception_start_date && <DateRange />}
+              <OneLine>
+                {props.reception_start_date &&
+                  `${props.reception_start_date}から`}
+              </OneLine>
+            </div>
+            <div className="item">
+              {props.target && <Person />}
+              <OneLine>{props.target}</OneLine>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="bottom">
-        <div className="from">
-          {'提供: ' + props?.competent_authorities[0].name}
+        <div className="bottom">
+          <div className="from">
+            {'提供: ' + props?.competent_authorities[0].name}
+          </div>
+          <div className="url">アクセスする</div>
         </div>
-        <div className="url">アクセスする</div>
-      </div>
-    </Container>
+      </Container>
+    </a>
   );
 };
 
