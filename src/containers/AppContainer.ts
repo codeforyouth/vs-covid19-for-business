@@ -12,7 +12,7 @@ export type AppContainerType = {
   industryId?: number | null;
   supportsData: SupportsData;
   handleSetWord: (w?: string) => void;
-  handleSetIndustryId: (value?: number | null) => void;
+  handleSetIndustryId: (value?: string | null) => void;
   fetchSupports: (matches?: RouteProps['matches']) => void;
   handleSetSupports: (supports?: Data | null) => void;
 };
@@ -38,7 +38,7 @@ const useAppContainer = (): AppContainerType => {
 
   const handleSetWord = useCallback((w?: string): void => setWord(w), []);
   const handleSetIndustryId = useCallback(
-    (value?: number | null): void => setIndustryId(value),
+    (value?: string | null): void => setIndustryId(value),
     [],
   );
 

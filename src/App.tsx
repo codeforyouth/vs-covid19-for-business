@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { h, render, FunctionalComponent, ComponentChild } from 'preact';
 import { useEffect } from 'preact/hooks';
 import Router, { Route } from 'preact-router';
@@ -14,11 +15,16 @@ export type RouteProps = {
 
 const AppComponent: FunctionalComponent<RouteProps &
   ComponentChild> = props => {
-  const { fetchSupports, handleSetWord } = AppContainer.useContainer();
+  const {
+    fetchSupports,
+    handleSetWord,
+    handleSetIndustryId,
+  } = AppContainer.useContainer();
 
   useEffect(() => {
-    const { q } = props.matches;
+    const { q, industry_category } = props.matches;
     if (q) handleSetWord(q);
+    if (industry_category) handleSetIndustryId(industry_category);
     fetchSupports(props.matches);
   }, []);
 

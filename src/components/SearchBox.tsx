@@ -10,6 +10,7 @@ import { RouteProps } from '../App';
 const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
   const {
     word,
+    industryId,
     handleSetWord,
     fetchSupports,
     handleSetIndustryId,
@@ -24,7 +25,7 @@ const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
     e: h.JSX.TargetedEvent<HTMLSelectElement, InputEvent>,
   ): void => {
     const value = (e.target as HTMLInputElement)?.value;
-    handleSetIndustryId(Number(value));
+    handleSetIndustryId(value);
     fetchSupports(props.matches);
   };
   const handleKeyDown = (e: KeyboardEvent): void => {
@@ -61,7 +62,11 @@ const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
               業種で絞る
             </option>
             {Industries.map(industry => (
-              <option key={industry.value} value={industry.value}>
+              <option
+                key={industry.value}
+                value={industry.value}
+                selected={Number(industryId) === industry.value}
+              >
                 {industry.name}
               </option>
             ))}
