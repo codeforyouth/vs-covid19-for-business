@@ -6,7 +6,11 @@ import { AppContainer } from './containers';
 import { SearchBox, Content } from './components';
 import GlobalStyle from './styles';
 
-type MatchKeys = 'q' | 'industry_category' | 'purpose_category';
+type MatchKeys =
+  | 'q'
+  | 'industry_category'
+  | 'purpose_category'
+  | 'prefecture.name';
 export type RouteProps = {
   matches: { [key in MatchKeys]: string };
   url: string;
@@ -18,13 +22,18 @@ const AppComponent: FunctionalComponent<RouteProps &
   const {
     fetchSupports,
     handleSetWord,
+    handleSetPrefecture,
     handleSetIndustryId,
+    handleSetPurposeId,
   } = AppContainer.useContainer();
 
   useEffect(() => {
-    const { q, industry_category } = props.matches;
+    const { q, industry_category, purpose_category } = props.matches;
     if (q) handleSetWord(q);
     if (industry_category) handleSetIndustryId(industry_category);
+    if (purpose_category) handleSetPurposeId(purpose_category);
+    if (props.matches['prefecture.name'])
+      handleSetPrefecture(props.matches['prefecture.name']);
     fetchSupports(props.matches);
   }, []);
 

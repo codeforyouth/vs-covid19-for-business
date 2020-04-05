@@ -9,10 +9,12 @@ import { API_BASE_URL } from '../constants';
 
 export type AppContainerType = {
   word?: string | null;
+  prefecture?: string | null;
   industryId?: string | null;
   purposeId?: string | null;
   supportsData: SupportsData;
   handleSetWord: (w?: string) => void;
+  handleSetPrefecture: (w?: string) => void;
   handleSetIndustryId: (value?: string | null) => void;
   handleSetPurposeId: (value?: string | null) => void;
   fetchSupports: (matches?: RouteProps['matches']) => void;
@@ -33,6 +35,7 @@ const initialSupportState: SupportsData = {
 
 const useAppContainer = (): AppContainerType => {
   const [word, setWord] = useState(null);
+  const [prefecture, setPrefecture] = useState(null);
   const [industryId, setIndustryId] = useState(null);
   const [purposeId, setPurposeId] = useState(null);
   const [supportsData, setSupportsData] = useState<SupportsData>(
@@ -40,6 +43,10 @@ const useAppContainer = (): AppContainerType => {
   );
 
   const handleSetWord = useCallback((w?: string): void => setWord(w), []);
+  const handleSetPrefecture = useCallback(
+    (w?: string): void => setPrefecture(w),
+    [],
+  );
   const handleSetIndustryId = useCallback(
     (value?: string | null): void => setIndustryId(value),
     [],
@@ -93,13 +100,14 @@ const useAppContainer = (): AppContainerType => {
       q: word,
       industry_category: industryId,
       purpose_category: purposeId,
+      'prefecture.name': prefecture,
     };
     const queries = Object.entries(paramsObj)
       .filter(([_key, value]) => value != null)
       .map(([key, val]) => `${key}=${val}`)
       .join('&');
     route(queries ? `/?${queries}` : '/');
-  }, [word, industryId, purposeId]);
+  }, [word, industryId, purposeId, prefecture]);
 
   useEffect(() => {
     createSearchParams();
@@ -107,10 +115,12 @@ const useAppContainer = (): AppContainerType => {
 
   return {
     word,
+    prefecture,
     industryId,
     purposeId,
     supportsData,
     handleSetWord,
+    handleSetPrefecture,
     handleSetIndustryId,
     handleSetPurposeId,
     handleSetSupports,

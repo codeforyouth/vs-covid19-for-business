@@ -3,20 +3,21 @@ import styled from 'styled-components';
 import media from 'styled-media-query';
 import { AppContainer } from '../containers';
 import images from '../assets/images/*.png';
-import { Colors, Industries, Purposes } from '../shared';
+import { Colors, Industries, Purposes, Prefectures } from '../shared';
 import { BASE_URL, Meta } from '../constants';
 import { RouteProps } from '../App';
-import { useCallback } from 'preact/hooks';
 
 const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
   const {
     fetchSupports,
     word,
+    prefecture,
     industryId,
     purposeId,
     handleSetWord,
     handleSetIndustryId,
     handleSetPurposeId,
+    handleSetPrefecture,
   } = AppContainer.useContainer();
 
   const handleChangeWord = (
@@ -26,13 +27,14 @@ const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
     handleSetWord(value === '' ? null : value);
   };
 
-  const handleChangeSelect = (key: 'purpose' | 'industry') => (
+  const handleChangeSelect = (key: 'purpose' | 'industry' | 'prefecture') => (
     e: h.JSX.TargetedEvent<HTMLSelectElement, InputEvent>,
   ): void => {
     let value = (e.target as HTMLSelectElement)?.value;
     value = value === '' ? null : value;
     if (key === 'purpose') handleSetPurposeId(value);
     if (key === 'industry') handleSetIndustryId(value);
+    if (key === 'prefecture') handleSetPrefecture(value);
     return fetchSupports(props.matches);
   };
 
@@ -91,6 +93,19 @@ const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
                 selected={Number(purposeId) === purpose.value}
               >
                 {purpose.name}
+              </option>
+            ))}
+          </select>
+          <select
+            name="prefectures"
+            onChange={handleChangeSelect('prefecture')}
+          >
+            <option value={null} selected>
+              都道府県で絞る
+            </option>
+            {Prefectures.map((pref, i) => (
+              <option key={i} value={pref} selected={pref === prefecture}>
+                {pref}
               </option>
             ))}
           </select>
