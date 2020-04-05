@@ -84,7 +84,7 @@ const Container = styled.div`
     box-shadow: 0px 1px 18px rgba(0, 0, 0, 0.12);
     > .bottom {
       > .url {
-        background-color: ${Colors.purple};
+        background-color: ${Colors.green};
         color: ${Colors.white};
       }
     }
@@ -144,7 +144,7 @@ const Container = styled.div`
     > .url {
       cursor: pointer;
       border-radius: 100px;
-      border: 1px solid ${Colors.purple};
+      border: 1px solid ${Colors.green};
       background-color: ${Colors.white};
       font-weight: bold;
       text-align: center;
@@ -152,7 +152,7 @@ const Container = styled.div`
       font-weight: normal;
       display: block;
       text-decoration: none;
-      color: ${Colors.purple};
+      color: ${Colors.green};
     }
   }
   ${media.lessThan('small')`

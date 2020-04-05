@@ -6,7 +6,7 @@ export default [
   },
   {
     name: 'ワークスタイル',
-    color: Colors.purple,
+    color: Colors.green,
   },
   {
     name: '宿泊、飲食サービス',

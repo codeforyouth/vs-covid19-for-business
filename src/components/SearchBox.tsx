@@ -101,7 +101,7 @@ const SearchBox: FunctionalComponent = () => {
 };
 
 const Container = styled.div`
-  background-color: ${Colors.purple};
+  background-color: ${Colors.green};
   > h1 {
     margin: 0;
     padding: 30px 0 20px;
