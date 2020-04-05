@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { useState, useCallback, useEffect } from 'preact/hooks';
 import { route } from 'preact-router';
 import { createContainer } from 'unstated-next';
@@ -8,8 +9,10 @@ import { API_BASE_URL } from '../constants';
 
 export type AppContainerType = {
   word?: string | null;
+  industryId?: number | null;
   supportsData: SupportsData;
   handleSetWord: (w?: string) => void;
+  handleSetIndustryId: (value?: number | null) => void;
   fetchSupports: (matches?: RouteProps['matches']) => void;
   handleSetSupports: (supports?: Data | null) => void;
 };
@@ -28,11 +31,17 @@ const initialSupportState: SupportsData = {
 
 const useAppContainer = (): AppContainerType => {
   const [word, setWord] = useState(null);
+  const [industryId, setIndustryId] = useState(null);
   const [supportsData, setSupportsData] = useState<SupportsData>(
     initialSupportState,
   );
 
   const handleSetWord = useCallback((w?: string): void => setWord(w), []);
+  const handleSetIndustryId = useCallback(
+    (value?: number | null): void => setIndustryId(value),
+    [],
+  );
+
   const handleSetSupports = useCallback((data?: Data | null): void => {
     setSupportsData({
       ...supportsData,
@@ -48,7 +57,10 @@ const useAppContainer = (): AppContainerType => {
       });
       let requestURL = API_BASE_URL;
       if (matches?.q) {
-        requestURL = `${API_BASE_URL},${matches.q}`;
+        requestURL = `${requestURL},${matches.q}`;
+      }
+      if (matches?.industry_category) {
+        requestURL = `${requestURL}&industry_category=${matches.industry_category}`;
       }
       try {
         const res: AxiosResponse<Data | null> = await axios.get(requestURL);
@@ -71,13 +83,16 @@ const useAppContainer = (): AppContainerType => {
   );
 
   const createSearchParams = useCallback(() => {
-    const paramsObj: RouteProps['matches'] = { q: word };
+    const paramsObj: RouteProps['matches'] = {
+      q: word,
+      industry_category: industryId,
+    };
     const queries = Object.entries(paramsObj)
       .filter(([_key, value]) => value != null)
       .map(([key, val]) => `${key}=${val}`)
       .join('&');
     route(queries ? `/?${queries}` : '/');
-  }, [word]);
+  }, [word, industryId]);
 
   useEffect(() => {
     createSearchParams();
@@ -85,8 +100,10 @@ const useAppContainer = (): AppContainerType => {
 
   return {
     word,
+    industryId,
     supportsData,
     handleSetWord,
+    handleSetIndustryId,
     handleSetSupports,
     fetchSupports,
   };

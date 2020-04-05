@@ -5,7 +5,7 @@ import { AppContainer } from './containers';
 import { SearchBox, Content } from './components';
 import GlobalStyle from './styles';
 
-type MatchKeys = 'q';
+type MatchKeys = 'q' | 'industry_category';
 export type RouteProps = {
   matches: { [key in MatchKeys]: string };
   url: string;

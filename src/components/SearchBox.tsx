@@ -3,17 +3,29 @@ import styled from 'styled-components';
 import media from 'styled-media-query';
 import { AppContainer } from '../containers';
 import images from '../assets/images/*.png';
-import { Colors } from '../shared';
+import { Colors, Industries } from '../shared';
 import { BASE_URL, Meta } from '../constants';
 import { RouteProps } from '../App';
 
 const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
-  const { word, handleSetWord, fetchSupports } = AppContainer.useContainer();
+  const {
+    word,
+    handleSetWord,
+    fetchSupports,
+    handleSetIndustryId,
+  } = AppContainer.useContainer();
   const handleChangeWord = (
     e: h.JSX.TargetedEvent<HTMLInputElement, InputEvent>,
   ): void => {
     const value = (e.target as HTMLInputElement)?.value;
     handleSetWord(value === '' ? null : value);
+  };
+  const handleChangeIndustryId = (
+    e: h.JSX.TargetedEvent<HTMLSelectElement, InputEvent>,
+  ): void => {
+    const value = (e.target as HTMLInputElement)?.value;
+    handleSetIndustryId(Number(value));
+    fetchSupports(props.matches);
   };
   const handleKeyDown = (e: KeyboardEvent): void => {
     if (e.keyCode === 13) {
@@ -43,6 +55,18 @@ const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
           onChange={handleChangeWord}
           onKeyDown={handleKeyDown}
         />
+        <div className="select-box">
+          <select name="industries" onChange={handleChangeIndustryId}>
+            <option value={null} selected>
+              業種で絞る
+            </option>
+            {Industries.map(industry => (
+              <option key={industry.value} value={industry.value}>
+                {industry.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <span class="sitedesc">
           行政機関の提供する新型コロナウイルス感染症対策の事業者向け政府支援制度情報
           <br />
