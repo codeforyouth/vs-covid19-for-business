@@ -1,18 +1,18 @@
 import { h, FunctionalComponent } from 'preact';
 import styled from 'styled-components';
 import media from 'styled-media-query';
-import { AppContainer } from '../containers';
 import images from '../assets/images/*.png';
 import { Colors } from '../shared';
 import { BASE_URL, Meta } from '../constants';
+import { useState } from 'preact/hooks';
 
 const SearchBox: FunctionalComponent = () => {
-  const { word, handleSetWord } = AppContainer.useContainer();
+  const [word, setWord] = useState('');
   const handleChangeWord = (
     e: h.JSX.TargetedEvent<HTMLInputElement, InputEvent>,
   ): void => {
     const value = (e.target as HTMLInputElement)?.value;
-    handleSetWord(value === '' ? null : value);
+    setWord(value === '' ? null : value);
   };
   return (
     <Container>
@@ -20,11 +20,11 @@ const SearchBox: FunctionalComponent = () => {
         <img src={images.title} alt="VS COVID-19" />
         <div class="subtitle">
           <a
-            href="https://twitter.com/search?q=%23%E6%B0%91%E9%96%93%E6%94%AF%E6%8F%B4%E6%83%85%E5%A0%B1%E3%83%8A%E3%83%93"
+            href="https://twitter.com/search?q=%23%E6%B0%91%E9%96%93%E8%A3%9C%E5%8A%A9%E9%87%91%E3%83%8A%E3%83%93"
             target="_blank"
             rel="noopener noreferrer"
           >
-            #民間支援情報ナビ
+            #民間補助金ナビ
           </a>
         </div>
       </h1>
@@ -37,11 +37,11 @@ const SearchBox: FunctionalComponent = () => {
           onChange={handleChangeWord}
         />
         <span class="sitedesc">
-          企業等による新型コロナウイルス感染症対策支援サービスをまとめました
+          行政機関の提供する新型コロナウイルス感染症対策の事業者向け政府支援制度情報
           <br />
           （出典:
           <a
-            href="https://docs.google.com/spreadsheets/d/1IiHUk3D_b6e5BfqFG3ZBxQ8X-QVACdY7CeQeG6C7S1w/"
+            href="https://docs.google.com/spreadsheets/d/1R1tS27iOfJe0fryN6mc_0Sz6lkE3846_jWEeVlz9cpc/edit#gid=0"
             target="_blank"
             rel="noopener noreferrer"
           >

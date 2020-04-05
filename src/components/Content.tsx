@@ -11,75 +11,19 @@ import { Colors, Categories, Targets } from '../shared';
 const CheckLoadStatus: FunctionalComponent = () => {
   const {
     supportsData: { status, error, response },
-    word,
-    target,
-    category,
-    filteredSupports,
-    handleSetCategory,
-    handleSetTarget,
   } = AppContainer.useContainer();
   return (
     <Layout>
       <div>
-        <div className="checks">
-          {Targets.map((targetItem, i) => (
-            <div>
-              <label key={i}>
-                <input
-                  type="checkbox"
-                  value={targetItem.value}
-                  onClick={() =>
-                    handleSetTarget(
-                      target === targetItem.value ? null : targetItem.value,
-                    )
-                  }
-                  checked={target === targetItem.value}
-                />
-                {targetItem.name}
-              </label>
-            </div>
-          ))}
-        </div>
-        <div className="categories">
-          {Categories.map(ct => (
-            <div
-              key={ct.color}
-              style={{
-                backgroundColor: ct.color,
-                opacity: ct.name === category ? '0.7' : '1.0',
-              }}
-              onClick={() =>
-                handleSetCategory(category === ct.name ? null : ct.name)
-              }
-            >
-              {ct.name}
-            </div>
-          ))}
-        </div>
         {status === (undefined || 'loading') && (
           <div className="loader">
             <img src={Loader} alt="読込中" />
           </div>
         )}
         {status === 'fail' && <p>{error.name + ':' + error.message}</p>}
-        {status == 'success' && (!response || (word && !filteredSupports)) && (
-          <p>何もありません</p>
-        )}
-        {!word &&
-          !target &&
-          !category &&
-          response &&
-          response.data?.map((item, i) => <Card key={i} {...item} />)}
-        {filteredSupports && (
-          <div>
-            <span>該当件数: {filteredSupports.length}件</span>
-            <div className="content">
-              {filteredSupports.map((item, i) => (
-                <Card key={i} {...item} />
-              ))}
-            </div>
-          </div>
-        )}
+        {status == 'success' && !response && <p>何もありません</p>}
+        {response &&
+          response.data.items?.map((item, i) => <Card key={i} {...item} />)}
       </div>
     </Layout>
   );
