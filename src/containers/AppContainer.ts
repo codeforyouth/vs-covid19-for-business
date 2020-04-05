@@ -62,18 +62,14 @@ const useAppContainer = (): AppContainerType => {
         ...supportsData,
         status: 'loading',
       });
-      let requestURL = API_BASE_URL;
-      if (matches?.q) {
-        requestURL = `${requestURL},${matches.q}`;
-      }
-      if (matches?.industry_category) {
-        requestURL = `${requestURL}&industry_category=${matches.industry_category}`;
-      }
-      if (matches?.purpose_category) {
-        requestURL = `${requestURL}&purpose_category=${matches.purpose_category}`;
-      }
+      const queries = Object.entries(matches)
+        .filter(([_key, value]) => value != null)
+        .map(([key, val]) => (key === 'q' ? `,${val}` : `&${key}=${val}`))
+        .join('');
       try {
-        const res: AxiosResponse<Data | null> = await axios.get(requestURL);
+        const res: AxiosResponse<Data | null> = await axios.get(
+          API_BASE_URL + queries,
+        );
         setSupportsData(prevState => ({
           ...prevState,
           response: res,

@@ -6,6 +6,7 @@ import images from '../assets/images/*.png';
 import { Colors, Industries, Purposes } from '../shared';
 import { BASE_URL, Meta } from '../constants';
 import { RouteProps } from '../App';
+import { useCallback } from 'preact/hooks';
 
 const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
   const {
@@ -17,31 +18,30 @@ const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
     handleSetIndustryId,
     handleSetPurposeId,
   } = AppContainer.useContainer();
+
   const handleChangeWord = (
     e: h.JSX.TargetedEvent<HTMLInputElement, InputEvent>,
   ): void => {
     const value = (e.target as HTMLInputElement)?.value;
     handleSetWord(value === '' ? null : value);
   };
-  const handleChangeIndustryId = (
+
+  const handleChangeSelect = (key: 'purpose' | 'industry') => (
     e: h.JSX.TargetedEvent<HTMLSelectElement, InputEvent>,
   ): void => {
-    const value = (e.target as HTMLInputElement)?.value;
-    handleSetIndustryId(value === '' ? null : value);
-    fetchSupports(props.matches);
+    let value = (e.target as HTMLSelectElement)?.value;
+    value = value === '' ? null : value;
+    if (key === 'purpose') handleSetPurposeId(value);
+    if (key === 'industry') handleSetIndustryId(value);
+    return fetchSupports(props.matches);
   };
-  const handleChangePurposeId = (
-    e: h.JSX.TargetedEvent<HTMLSelectElement, InputEvent>,
-  ): void => {
-    const value = (e.target as HTMLInputElement)?.value;
-    handleSetPurposeId(value === '' ? null : value);
-    fetchSupports(props.matches);
-  };
+
   const handleKeyDown = (e: KeyboardEvent): void => {
     if (e.keyCode === 13) {
       return fetchSupports(props.matches);
     }
   };
+
   return (
     <Container>
       <h1 id="title">
@@ -66,7 +66,7 @@ const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
           onKeyDown={handleKeyDown}
         />
         <div className="select-box">
-          <select name="industries" onChange={handleChangeIndustryId}>
+          <select name="industries" onChange={handleChangeSelect('industry')}>
             <option value={null} selected>
               業種で絞る
             </option>
@@ -80,7 +80,7 @@ const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
               </option>
             ))}
           </select>
-          <select name="purposes" onChange={handleChangePurposeId}>
+          <select name="purposes" onChange={handleChangeSelect('purpose')}>
             <option value={null} selected>
               目的の種類で絞る
             </option>
