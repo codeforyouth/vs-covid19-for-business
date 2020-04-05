@@ -6,7 +6,7 @@ import { AppContainer } from '../containers';
 import { Card } from '.';
 import { LAYOUT_WIDTH } from '../constants';
 import Loader from '../assets/images/loader.svg';
-import { Colors, Categories, Targets } from '../shared';
+import { Colors } from '../shared';
 
 const CheckLoadStatus: FunctionalComponent = () => {
   const {

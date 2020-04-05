@@ -1,12 +1,11 @@
 import { h, render, FunctionalComponent, ComponentChild } from 'preact';
 import { useEffect } from 'preact/hooks';
 import Router, { Route } from 'preact-router';
-import { SHEET_URL } from './constants';
 import { AppContainer } from './containers';
 import { SearchBox, Content } from './components';
 import GlobalStyle from './styles';
 
-type MatchKeys = 'q' | 'targets' | 'categories';
+type MatchKeys = 'q';
 export type RouteProps = {
   matches: { [key in MatchKeys]: string };
   url: string;
@@ -15,10 +14,12 @@ export type RouteProps = {
 
 const AppComponent: FunctionalComponent<RouteProps &
   ComponentChild> = props => {
-  const { fetchSupports } = AppContainer.useContainer();
+  const { fetchSupports, handleSetWord } = AppContainer.useContainer();
 
   useEffect(() => {
-    fetchSupports(SHEET_URL);
+    const { q } = props.matches;
+    if (q) handleSetWord(q);
+    fetchSupports(props.matches);
   }, []);
 
   return (

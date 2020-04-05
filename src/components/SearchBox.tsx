@@ -1,18 +1,24 @@
-import { h, FunctionalComponent } from 'preact';
+import { h, FunctionalComponent, ComponentChild } from 'preact';
 import styled from 'styled-components';
 import media from 'styled-media-query';
+import { AppContainer } from '../containers';
 import images from '../assets/images/*.png';
 import { Colors } from '../shared';
 import { BASE_URL, Meta } from '../constants';
-import { useState } from 'preact/hooks';
+import { RouteProps } from '../App';
 
-const SearchBox: FunctionalComponent = () => {
-  const [word, setWord] = useState('');
+const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
+  const { word, handleSetWord, fetchSupports } = AppContainer.useContainer();
   const handleChangeWord = (
     e: h.JSX.TargetedEvent<HTMLInputElement, InputEvent>,
   ): void => {
     const value = (e.target as HTMLInputElement)?.value;
-    setWord(value === '' ? null : value);
+    handleSetWord(value === '' ? null : value);
+  };
+  const handleKeyDown = (e: KeyboardEvent): void => {
+    if (e.keyCode === 13) {
+      return fetchSupports(props.matches);
+    }
   };
   return (
     <Container>
@@ -35,6 +41,7 @@ const SearchBox: FunctionalComponent = () => {
           placeholder="検索する単語をご入力ください"
           value={word}
           onChange={handleChangeWord}
+          onKeyDown={handleKeyDown}
         />
         <span class="sitedesc">
           行政機関の提供する新型コロナウイルス感染症対策の事業者向け政府支援制度情報
