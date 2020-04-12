@@ -30,7 +30,7 @@ const About: FunctionalComponent = () => {
                 >
                   行政の支援制度データ(スプレッドシート)
                 </a>
-                のデータも統合された
+                のデータが統合された
                 <a
                   href="https://jirei-seido-api.mirasapo-plus.go.jp/"
                   target="_blank"
@@ -46,7 +46,7 @@ const About: FunctionalComponent = () => {
                 >
                   経済産業省 中小企業庁 ミラサポPlus
                 </a>
-                に飛びます。支援情報の詳細はこちらをご確認ください。データについての詳細はこちらの
+                に飛びます。データについての詳細は総務省発表の
                 <a
                   href="https://www.soumu.go.jp/menu_news/s-news/01ryutsu06_02000243.html"
                   target="_blank"
@@ -66,9 +66,9 @@ const About: FunctionalComponent = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  こちら(GitHubのissue)
+                  GitHubのissue
                 </a>
-                を通し投稿いただけます。コードを公開しているので誰でもご参加いただけます。またサービスの問い合わせ等は直接支援団体にお問い合わせ下さい。
+                を通し投稿いただけます。コードを公開しているので誰でもご参加いただけます。また支援情報の問い合わせ等は直接支援団体にお問い合わせ下さい。
               </p>
             </section>
             <section className="top-margin">
