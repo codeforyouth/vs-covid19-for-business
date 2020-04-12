@@ -134,6 +134,10 @@ const Container = styled.div`
     align-items: center;
     > .from {
       color: ${Colors.textGray};
+      width: 70%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     > .url {
       cursor: pointer;
