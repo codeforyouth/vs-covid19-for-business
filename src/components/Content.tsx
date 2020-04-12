@@ -87,16 +87,13 @@ const ScrollTrigger = styled.div<{ scrollPosition: number }>`
   border-radius: 50%;
   margin: 36px;
   z-index: 5;
-  animation: fadeIn 2s ease 0s 1 normal;
+  animation: fadeIn 0.3s linear 0s 1 normal;
   > svg {
     color: ${Colors.white};
   }
   @keyframes fadeIn {
     0% {
       opacity: 0;
-    }
-    30% {
-      opacity: 0.7;
     }
     100% {
       opacity: 1;
