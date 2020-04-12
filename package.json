@@ -1,8 +1,8 @@
 {
-  "name": "vs-covid19-subsidy",
+  "name": "vs-covid19-for-business",
   "version": "1.0.0",
   "main": "src/App.tsx",
-  "repository": "https://github.com/yokinist/vs-covid19.git",
+  "repository": "https://github.com/codeforyouth/vs-covid19-for-business.git",
   "author": "yokinist <yokinist@gmail.com>",
   "license": "MIT",
   "scripts": {

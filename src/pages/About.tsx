@@ -71,7 +71,7 @@ const About: FunctionalComponent<RouteProps & ComponentChild> = props => {
               <p>
                 推奨ブラウザは、Chrome/Safariの最新版です。ブラウザによっては、動作しないことがあります。データの不整合や質問などは上に説明させていただいた通り提供されているAPIを通してオープンデータを描画しているため本サイト/運営者ではお答えできないことを予めご了承ください。万が一情報が不正確であったことおよび誤植があったことにより生じた損害、不利益等についてはいかなる場合もその責任を一切負わないものとします。その他サイトの改善点や質問/提案などは
                 <a
-                  href="https://github.com/codeforyouth/vs-covid19-subsidy/issues/new"
+                  href="https://github.com/codeforyouth/vs-covid19-for-business/issues/new"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
