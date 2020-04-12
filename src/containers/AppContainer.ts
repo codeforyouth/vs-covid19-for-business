@@ -1,16 +1,20 @@
-import { useState, useCallback, useEffect } from 'preact/hooks';
+import { useState, useCallback, useEffect, StateUpdater } from 'preact/hooks';
 import { route } from 'preact-router';
 import { createContainer } from 'unstated-next';
-import { Data } from '../typings';
+import { Data, Params } from '../typings';
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { RouteProps } from '../App';
 import { API_BASE_URL } from '../constants';
 
 export type AppContainerType = {
+  isInitial: boolean;
+  params?: Params | null;
   word?: string | null;
   supportsData: SupportsData;
+  handleSetIsInitial: (isInitial: boolean) => void;
+  setParams: StateUpdater<Params>;
+  handleSetParams: (params: Params) => void;
   handleSetWord: (w?: string) => void;
-  fetchSupports: (matches?: RouteProps['matches']) => void;
+  fetchSupports: (params?: Params) => void;
   handleSetSupports: (supports?: Data | null) => void;
 };
 
@@ -20,6 +24,13 @@ type SupportsData = {
   status?: 'loading' | 'success' | 'fail';
 };
 
+const initialParams: Params = {
+  q: null,
+  industry_category: null,
+  purpose_category: null,
+  'prefecture.name': null,
+};
+
 const initialSupportState: SupportsData = {
   response: null,
   error: null,
@@ -27,12 +38,25 @@ const initialSupportState: SupportsData = {
 };
 
 const useAppContainer = (): AppContainerType => {
+  const [isInitial, setIsInitial] = useState(true);
+  const [params, setParams] = useState<Params>(initialParams);
   const [word, setWord] = useState(null);
   const [supportsData, setSupportsData] = useState<SupportsData>(
     initialSupportState,
   );
 
+  const handleSetParams = useCallback(
+    (params?: Params): void => setParams(params),
+    [],
+  );
+
+  const handleSetIsInitial = useCallback(
+    (isInitial: boolean) => setIsInitial(isInitial),
+    [],
+  );
+
   const handleSetWord = useCallback((w?: string): void => setWord(w), []);
+
   const handleSetSupports = useCallback((data?: Data | null): void => {
     setSupportsData({
       ...supportsData,
@@ -40,52 +64,59 @@ const useAppContainer = (): AppContainerType => {
     });
   }, []);
 
-  const fetchSupports = useCallback(
-    async (matches: RouteProps['matches']): Promise<void> => {
-      setSupportsData({
-        ...supportsData,
-        status: 'loading',
-      });
-      let requestURL = API_BASE_URL;
-      if (matches?.q) {
-        requestURL = `${API_BASE_URL},${matches.q}`;
-      }
-      try {
-        const res: AxiosResponse<Data | null> = await axios.get(requestURL);
-        setSupportsData(prevState => ({
-          ...prevState,
-          response: res,
-          status: 'success',
-        }));
-        return Promise.resolve();
-      } catch (err) {
-        setSupportsData(prevState => ({
-          ...prevState,
-          error: err,
-          status: 'fail',
-        }));
-        return Promise.reject();
-      }
-    },
-    [],
-  );
-
-  const createSearchParams = useCallback(() => {
-    const paramsObj: RouteProps['matches'] = { q: word };
-    const queries = Object.entries(paramsObj)
+  const fetchSupports = useCallback(async (params: Params): Promise<void> => {
+    setSupportsData({
+      ...supportsData,
+      status: 'loading',
+    });
+    const queries = Object.entries(params)
       .filter(([_key, value]) => value != null)
-      .map(([key, val]) => `${key}=${val}`)
-      .join('&');
-    route(queries ? `/?${queries}` : '/');
-  }, [word]);
+      .map(([key, val]) => (key === 'q' ? `,${val}` : `&${key}=${val}`))
+      .join('');
+    try {
+      const res: AxiosResponse<Data | null> = await axios.get(
+        API_BASE_URL + queries,
+      );
+      setSupportsData(prevState => ({
+        ...prevState,
+        response: res,
+        status: 'success',
+      }));
+      return Promise.resolve();
+    } catch (err) {
+      setSupportsData(prevState => ({
+        ...prevState,
+        error: err,
+        status: 'fail',
+      }));
+      return Promise.reject();
+    }
+  }, []);
+
+  const createParams = useCallback(() => {
+    if (!isInitial) {
+      const queries =
+        params &&
+        Object.entries(params)
+          .filter(([_key, value]) => value != null)
+          .map(([key, val]) => `${key}=${val}`)
+          .join('&');
+      route(queries ? `/?${queries}` : '/');
+    }
+  }, [params, isInitial]);
 
   useEffect(() => {
-    createSearchParams();
-  }, [createSearchParams]);
+    createParams();
+  }, [createParams]);
 
   return {
+    isInitial,
+    params,
     word,
     supportsData,
+    handleSetIsInitial,
+    handleSetParams,
+    setParams,
     handleSetWord,
     handleSetSupports,
     fetchSupports,

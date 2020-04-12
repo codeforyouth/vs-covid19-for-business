@@ -1,3 +1,4 @@
 export { default as Colors } from './colors';
-export { default as Categories } from './categories';
-export { default as Targets } from './targets';
+export { default as Purposes } from './purposes';
+export { default as Industries } from './industries';
+export { default as Prefectures } from './prefectures';

@@ -1,25 +1,51 @@
-import { h, FunctionalComponent, ComponentChild } from 'preact';
+import { h, FunctionalComponent } from 'preact';
 import styled from 'styled-components';
 import media from 'styled-media-query';
 import { AppContainer } from '../containers';
 import images from '../assets/images/*.png';
-import { Colors } from '../shared';
+import { Colors, Industries, Purposes, Prefectures } from '../shared';
 import { BASE_URL, Meta } from '../constants';
-import { RouteProps } from '../App';
 
-const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
-  const { word, handleSetWord, fetchSupports } = AppContainer.useContainer();
+const SearchBox: FunctionalComponent = () => {
+  const {
+    params,
+    setParams,
+    word,
+    handleSetWord,
+  } = AppContainer.useContainer();
+
   const handleChangeWord = (
     e: h.JSX.TargetedEvent<HTMLInputElement, InputEvent>,
   ): void => {
     const value = (e.target as HTMLInputElement)?.value;
     handleSetWord(value === '' ? null : value);
   };
+
+  const handleChangeSelect = (key: 'purpose' | 'industry' | 'prefecture') => (
+    e: h.JSX.TargetedEvent<HTMLSelectElement, InputEvent>,
+  ): void => {
+    let value = (e.target as HTMLSelectElement)?.value;
+    value = value === '' ? null : value;
+    setParams(prevParams => ({
+      ...prevParams,
+      purpose_category:
+        key === 'purpose' ? Number(value) : prevParams.purpose_category,
+      industry_category:
+        key === 'industry' ? Number(value) : prevParams.industry_category,
+      'prefecture.name':
+        key === 'prefecture' ? value : prevParams['prefecture.name'],
+    }));
+  };
+
   const handleKeyDown = (e: KeyboardEvent): void => {
     if (e.keyCode === 13) {
-      return fetchSupports(props.matches);
+      setParams(prevParams => ({
+        ...prevParams,
+        q: word,
+      }));
     }
   };
+
   return (
     <Container>
       <h1 id="title">
@@ -43,6 +69,53 @@ const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
           onChange={handleChangeWord}
           onKeyDown={handleKeyDown}
         />
+        <div className="select-box">
+          <select name="industries" onChange={handleChangeSelect('industry')}>
+            <option value={null} selected>
+              業種で絞る
+            </option>
+            {Industries.map(industry => (
+              <option
+                key={industry.value}
+                value={industry.value}
+                selected={params.industry_category === industry.value}
+              >
+                {industry.name}
+              </option>
+            ))}
+          </select>
+          <select name="purposes" onChange={handleChangeSelect('purpose')}>
+            <option value={null} selected>
+              目的の種類で絞る
+            </option>
+            {Purposes.map(purpose => (
+              <option
+                key={purpose.value}
+                value={purpose.value}
+                selected={params.purpose_category === purpose.value}
+              >
+                {purpose.name}
+              </option>
+            ))}
+          </select>
+          <select
+            name="prefectures"
+            onChange={handleChangeSelect('prefecture')}
+          >
+            <option value={null} selected>
+              都道府県で絞る
+            </option>
+            {Prefectures.map((pref, i) => (
+              <option
+                key={i}
+                value={pref}
+                selected={pref === params['prefecture.name']}
+              >
+                {pref}
+              </option>
+            ))}
+          </select>
+        </div>
         <span class="sitedesc">
           行政機関の提供する新型コロナウイルス感染症対策の事業者向け政府支援制度情報
           <br />
