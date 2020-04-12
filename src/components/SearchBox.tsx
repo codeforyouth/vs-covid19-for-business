@@ -1,23 +1,17 @@
-import { h, FunctionalComponent, ComponentChild } from 'preact';
+import { h, FunctionalComponent } from 'preact';
 import styled from 'styled-components';
 import media from 'styled-media-query';
 import { AppContainer } from '../containers';
 import images from '../assets/images/*.png';
 import { Colors, Industries, Purposes, Prefectures } from '../shared';
 import { BASE_URL, Meta } from '../constants';
-import { RouteProps } from '../App';
 
-const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
+const SearchBox: FunctionalComponent = () => {
   const {
-    fetchSupports,
+    params,
+    setParams,
     word,
-    prefecture,
-    industryId,
-    purposeId,
     handleSetWord,
-    handleSetIndustryId,
-    handleSetPurposeId,
-    handleSetPrefecture,
   } = AppContainer.useContainer();
 
   const handleChangeWord = (
@@ -32,15 +26,23 @@ const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
   ): void => {
     let value = (e.target as HTMLSelectElement)?.value;
     value = value === '' ? null : value;
-    if (key === 'purpose') handleSetPurposeId(value);
-    if (key === 'industry') handleSetIndustryId(value);
-    if (key === 'prefecture') handleSetPrefecture(value);
-    return fetchSupports(props.matches);
+    setParams(prevParams => ({
+      ...prevParams,
+      purpose_category:
+        key === 'purpose' ? Number(value) : prevParams.purpose_category,
+      industry_category:
+        key === 'industry' ? Number(value) : prevParams.industry_category,
+      'prefecture.name':
+        key === 'prefecture' ? value : prevParams['prefecture.name'],
+    }));
   };
 
   const handleKeyDown = (e: KeyboardEvent): void => {
     if (e.keyCode === 13) {
-      return fetchSupports(props.matches);
+      setParams(prevParams => ({
+        ...prevParams,
+        q: word,
+      }));
     }
   };
 
@@ -76,7 +78,7 @@ const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
               <option
                 key={industry.value}
                 value={industry.value}
-                selected={Number(industryId) === industry.value}
+                selected={params.industry_category === industry.value}
               >
                 {industry.name}
               </option>
@@ -90,7 +92,7 @@ const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
               <option
                 key={purpose.value}
                 value={purpose.value}
-                selected={Number(purposeId) === purpose.value}
+                selected={params.purpose_category === purpose.value}
               >
                 {purpose.name}
               </option>
@@ -104,7 +106,11 @@ const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
               都道府県で絞る
             </option>
             {Prefectures.map((pref, i) => (
-              <option key={i} value={pref} selected={pref === prefecture}>
+              <option
+                key={i}
+                value={pref}
+                selected={pref === params['prefecture.name']}
+              >
                 {pref}
               </option>
             ))}

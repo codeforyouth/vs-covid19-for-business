@@ -1,18 +1,13 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { h, render, FunctionalComponent, ComponentChild } from 'preact';
 import { useEffect } from 'preact/hooks';
 import Router, { Route } from 'preact-router';
 import { AppContainer } from './containers';
 import { SearchBox, Content } from './components';
 import GlobalStyle from './styles';
+import { Params } from './typings';
 
-type MatchKeys =
-  | 'q'
-  | 'industry_category'
-  | 'purpose_category'
-  | 'prefecture.name';
 export type RouteProps = {
-  matches: { [key in MatchKeys]: string };
+  matches: { [key in keyof Params]: string };
   url: string;
   path: string;
 };
@@ -20,22 +15,30 @@ export type RouteProps = {
 const AppComponent: FunctionalComponent<RouteProps &
   ComponentChild> = props => {
   const {
+    params,
     fetchSupports,
-    handleSetWord,
-    handleSetPrefecture,
-    handleSetIndustryId,
-    handleSetPurposeId,
+    handleSetParams,
+    isInitial,
+    handleSetIsInitial,
   } = AppContainer.useContainer();
 
   useEffect(() => {
     const { q, industry_category, purpose_category } = props.matches;
-    if (q) handleSetWord(q);
-    if (industry_category) handleSetIndustryId(industry_category);
-    if (purpose_category) handleSetPurposeId(purpose_category);
-    if (props.matches['prefecture.name'])
-      handleSetPrefecture(props.matches['prefecture.name']);
-    fetchSupports(props.matches);
+    const params = {
+      q: q ?? null,
+      industry_category: industry_category ? Number(industry_category) : null,
+      purpose_category: purpose_category ? Number(purpose_category) : null,
+      'prefecture.name': props.matches?.['prefecture.name'] ?? null,
+    };
+    handleSetParams(params);
+    handleSetIsInitial(false);
   }, []);
+
+  useEffect(() => {
+    if (!isInitial) {
+      fetchSupports(params);
+    }
+  }, [params]);
 
   return (
     <div>

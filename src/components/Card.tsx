@@ -51,7 +51,7 @@ const Card: FunctionalComponent<Props> = props => {
         </div>
         <div className="bottom">
           <div className="from">
-            {'提供: ' + props?.competent_authorities[0].name}
+            {'提供: ' + props?.competent_authorities[0]?.name}
           </div>
           <div className="url">アクセスする</div>
         </div>
