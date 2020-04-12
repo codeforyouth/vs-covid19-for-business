@@ -61,7 +61,7 @@ const SearchBox: FunctionalComponent = () => {
           </a>
         </div>
       </h1>
-      <div class="searchboxid">
+      <div class="search">
         <input
           type="text"
           id="searchbox"
@@ -71,51 +71,57 @@ const SearchBox: FunctionalComponent = () => {
           onKeyDown={handleKeyDown}
         />
         <div className="select-box">
-          <select name="industries" onChange={handleChangeSelect('industry')}>
-            <option value={null} selected>
-              業種で絞る
-            </option>
-            {Industries.map(industry => (
-              <option
-                key={industry.value}
-                value={industry.value}
-                selected={params.industry_category === industry.value}
-              >
-                {industry.name}
+          <div className="select-wrapper">
+            <select name="industries" onChange={handleChangeSelect('industry')}>
+              <option value={null} selected>
+                業種で絞る
               </option>
-            ))}
-          </select>
-          <select name="purposes" onChange={handleChangeSelect('purpose')}>
-            <option value={null} selected>
-              目的の種類で絞る
-            </option>
-            {Purposes.map(purpose => (
-              <option
-                key={purpose.value}
-                value={purpose.value}
-                selected={params.purpose_category === purpose.value}
-              >
-                {purpose.name}
+              {Industries.map(industry => (
+                <option
+                  key={industry.value}
+                  value={industry.value}
+                  selected={params.industry_category === industry.value}
+                >
+                  {industry.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="select-wrapper">
+            <select name="purposes" onChange={handleChangeSelect('purpose')}>
+              <option value={null} selected>
+                目的の種類で絞る
               </option>
-            ))}
-          </select>
-          <select
-            name="prefectures"
-            onChange={handleChangeSelect('prefecture')}
-          >
-            <option value={null} selected>
-              都道府県で絞る
-            </option>
-            {Prefectures.map((pref, i) => (
-              <option
-                key={i}
-                value={pref}
-                selected={pref === params['prefecture.name']}
-              >
-                {pref}
+              {Purposes.map(purpose => (
+                <option
+                  key={purpose.value}
+                  value={purpose.value}
+                  selected={params.purpose_category === purpose.value}
+                >
+                  {purpose.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="select-wrapper">
+            <select
+              name="prefectures"
+              onChange={handleChangeSelect('prefecture')}
+            >
+              <option value={null} selected>
+                都道府県で絞る
               </option>
-            ))}
-          </select>
+              {Prefectures.map((pref, i) => (
+                <option
+                  key={i}
+                  value={pref}
+                  selected={pref === params['prefecture.name']}
+                >
+                  {pref}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
         <span class="sitedesc">
           （出典:
@@ -206,8 +212,72 @@ const Container = styled.div`
       }
     }
   }
-  > .searchboxid {
+  > .search {
     text-align: center;
+    > input#searchbox {
+      width: 60vw;
+      max-width: 800px;
+      margin: 0.5em 0.2em 0.2em 0.5em;
+      font-size: 24px;
+      border-radius: 48px;
+      border: 2px solid ${Colors.borderGray};
+      line-height: 1.3em;
+      padding: 16px 24px;
+      margin-bottom: 8px;
+      box-shadow: 0px 1px 18px rgba(0, 0, 0, 0.04);
+      ${media.lessThan('small')`
+        width: 95vw;
+        font-size: 18px;
+      `}
+    }
+    > .select-box {
+      display: flex;
+      justify-content: center;
+      ${media.lessThan('small')`
+        flex-direction: column;
+        width: 90vw;
+        margin: 0 auto;
+      `}
+      .select-wrapper {
+        overflow: hidden;
+        text-align: center;
+        position: relative;
+        border-radius: 2px;
+        margin: 8px;
+        border: 2px solid ${Colors.white};
+        border-radius: 50px;
+        background: transparent;
+        &::before {
+          position: absolute;
+          top: 17px;
+          right: 17px;
+          width: 0;
+          height: 0;
+          padding: 0;
+          content: '';
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 6px solid ${Colors.white};
+          pointer-events: none;
+        }
+        > select {
+          width: 100%;
+          cursor: pointer;
+          text-indent: 0.01px;
+          text-overflow: ellipsis;
+          border: none;
+          outline: none;
+          background: transparent;
+          background-image: none;
+          box-shadow: none;
+          -webkit-appearance: none;
+          appearance: none;
+          padding: 8px 32px 8px 16px;
+          color: ${Colors.white};
+        }
+      }
+    }
+
     > .sitedesc {
       color: ${Colors.white};
       width: 100%;
@@ -227,23 +297,12 @@ const Container = styled.div`
         }
       }
     }
+
     > span {
       font-size: 12px;
       line-height: 170%;
       color: ${Colors.textBlack};
       margin-bottom: 30px;
-    }
-    > input {
-      width: 60vw;
-      max-width: 800px;
-      margin: 0.5em 0.2em 0.2em 0.5em;
-      font-size: 24px;
-      border-radius: 48px;
-      border: 2px solid ${Colors.borderGray};
-      line-height: 1.3em;
-      padding: 16px 24px;
-      margin-bottom: 8px;
-      box-shadow: 0px 1px 18px rgba(0, 0, 0, 0.04);
     }
   }
   ${media.lessThan('small')`
@@ -256,7 +315,7 @@ const Container = styled.div`
         font-size: 24px;
       }
     }
-    .searchboxid {
+    .search {
       > input {
         width: 90vw;
         margin: 0.5em 0.2em 0.2em 0.5em;
