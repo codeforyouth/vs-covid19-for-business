@@ -1,5 +1,4 @@
 import { h, FunctionalComponent, ComponentChild } from 'preact';
-import { Link } from 'preact-router/match';
 import { useState } from 'preact/hooks';
 import styled from 'styled-components';
 import media from 'styled-media-query';
@@ -7,7 +6,7 @@ import { AppContainer } from '../containers';
 import images from '../assets/images/*.png';
 import { Colors, Industries, Purposes, Prefectures } from '../shared';
 import { BASE_URL, Meta } from '../constants';
-import { RouteProps } from '../pages/Top';
+import { RouteProps } from '../typings';
 
 const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
   const [isChanged, toggleIsChanged] = useState(false);
@@ -117,6 +116,7 @@ const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
           </div>
         </div>
         <span class="sitedesc">
+          <br />
           （出典:
           <a
             href="https://docs.google.com/spreadsheets/d/1R1tS27iOfJe0fryN6mc_0Sz6lkE3846_jWEeVlz9cpc/edit#gid=0"
@@ -127,7 +127,6 @@ const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
           </a>
           )
           <br />
-          <Link href="/about">このサイトについて</Link>
           <div className="share">
             <div>
               <a
@@ -304,7 +303,6 @@ const Container = styled.div`
       font-size: 12px;
       line-height: 170%;
       color: ${Colors.textBlack};
-      margin-bottom: 30px;
     }
   }
   ${media.lessThan('small')`
@@ -331,7 +329,7 @@ const Container = styled.div`
       > .sitedesc {
         padding: 0 20px;
         font-size: 11px;
-        margin-bottom: 30px;
+        /* margin-bottom: 30px; */
       }
     }
   `}

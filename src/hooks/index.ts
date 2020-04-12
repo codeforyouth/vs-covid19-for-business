@@ -1,2 +1,2 @@
 export * from './usePrevious';
-export * from './useScrollPosition';
+export * from './useScroll';

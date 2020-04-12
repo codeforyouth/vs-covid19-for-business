@@ -1,15 +1,9 @@
 import { h, FunctionalComponent, ComponentChild } from 'preact';
 import { useEffect } from 'preact/hooks';
 import { AppContainer } from '../containers';
-import { SearchBox, Content } from '../components';
+import { SearchBox, Content, Header } from '../components';
 import GlobalStyle from '../styles';
-import { Params } from '../typings';
-
-export type RouteProps = {
-  matches: { [key in keyof Params]: string };
-  url: string;
-  path: string;
-};
+import { Params, RouteProps } from '../typings';
 
 const Top: FunctionalComponent<RouteProps & ComponentChild> = props => {
   const {
@@ -42,6 +36,7 @@ const Top: FunctionalComponent<RouteProps & ComponentChild> = props => {
     <div>
       <GlobalStyle />
       <SearchBox {...props} />
+      <Header path={props.path} />
       <Content />
     </div>
   );

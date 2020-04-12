@@ -1,6 +1,10 @@
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useState, useCallback } from 'preact/hooks';
 
-export const useScrollPosition = (): number => {
+type ReturnType = {
+  scrollPosition: number;
+  scrollToTop: () => void;
+};
+export const useScroll = (): ReturnType => {
   const [scrollPosition, setScrollPosition] = useState(0);
   useEffect(() => {
     let tmpPosition = 0;
@@ -20,5 +24,11 @@ export const useScrollPosition = (): number => {
       window.removeEventListener('scroll', handleScroll);
     };
   });
-  return scrollPosition;
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+  return {
+    scrollPosition,
+    scrollToTop,
+  };
 };

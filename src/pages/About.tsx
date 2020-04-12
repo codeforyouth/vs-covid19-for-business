@@ -1,12 +1,20 @@
-import { h, FunctionalComponent } from 'preact';
+import { h, FunctionalComponent, ComponentChild } from 'preact';
 import { Link } from 'preact-router/match';
+import { useEffect } from 'preact/hooks';
 import styled from 'styled-components';
 import media from 'styled-media-query';
+import { useScroll } from '../hooks';
 import GlobalStyle from '../styles';
+import { Header } from '../components';
 import { Colors } from '../shared';
 import images from '../assets/images/*.png';
+import { RouteProps } from '../typings';
 
-const About: FunctionalComponent = () => {
+const About: FunctionalComponent<RouteProps & ComponentChild> = props => {
+  const { scrollToTop } = useScroll();
+  useEffect(() => {
+    scrollToTop();
+  }, []);
   return (
     <div>
       <GlobalStyle />
@@ -18,6 +26,7 @@ const About: FunctionalComponent = () => {
               <span class="subtitle">#事業者向け支援情報ナビ</span>
             </Link>
           </h1>
+          <Header path={props.path} />
           <div className="card">
             <section>
               <h3>本サイトについて</h3>

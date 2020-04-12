@@ -9,7 +9,7 @@ import { Card, Loader } from '.';
 import { LAYOUT_WIDTH } from '../constants';
 import { Colors } from '../shared';
 import { useCallback } from 'preact/hooks';
-import { usePrevious, useScrollPosition } from '../hooks';
+import { usePrevious, useScroll } from '../hooks';
 
 const CheckLoadStatus: FunctionalComponent = () => {
   const {
@@ -19,7 +19,7 @@ const CheckLoadStatus: FunctionalComponent = () => {
     supportsData: { status, error, data },
     fetchSupports,
   } = AppContainer.useContainer();
-  const scrollPosition = useScrollPosition();
+  const { scrollPosition, scrollToTop } = useScroll();
   const prevPageNumber = usePrevious(pageNumber);
 
   const handleLoadMore = useCallback(() => {
@@ -30,10 +30,6 @@ const CheckLoadStatus: FunctionalComponent = () => {
       offset: nextPageNumber * 10,
     };
     fetchSupports(offsetQueries, true);
-  }, []);
-
-  const scrollToTop = useCallback(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   return (
