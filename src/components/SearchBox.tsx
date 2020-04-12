@@ -90,7 +90,7 @@ const SearchBox: FunctionalComponent = () => {
           <div className="select-wrapper">
             <select name="purposes" onChange={handleChangeSelect('purpose')}>
               <option value={null} selected>
-                目的の種類で絞る
+                用途で絞る
               </option>
               {Purposes.map(purpose => (
                 <option

@@ -19,18 +19,14 @@ const Card: FunctionalComponent<Props> = props => {
       <Container>
         <div className="top">
           <div className="tags">
-            {props.stage_categories?.length > 1 &&
-              props.stage_categories.map(stage => (
-                <CategoryLabel key={stage.id} className="type">
-                  {stage.name}
-                </CategoryLabel>
-              ))}
             {props.service_categories?.length > 1 &&
-              props.service_categories.map(service => (
-                <CategoryLabel key={service.id} className="type">
-                  {service.name}
-                </CategoryLabel>
-              ))}
+              props.service_categories
+                .filter((_, i) => i < 3)
+                .map(service => (
+                  <div key={service.id} className="item">
+                    {service.name}
+                  </div>
+                ))}
             <div className="item">{props?.keywords[0]}</div>
           </div>
           <h2>{props.title}</h2>
@@ -50,7 +46,11 @@ const Card: FunctionalComponent<Props> = props => {
           </div>
         </div>
         <div className="bottom">
-          <div className="from">{'提供: ' + props?.support_organization}</div>
+          <div className="from">
+            {'提供: ' +
+              (props?.support_organization ||
+                '不明(詳細はクリックで確認できます)')}
+          </div>
           <div className="url">アクセスする</div>
         </div>
       </Container>
@@ -65,17 +65,6 @@ const OneLine = styled.div`
   &:hover {
     white-space: normal;
   }
-`;
-
-const CategoryLabel = styled.div<{ type?: string }>`
-  color: white;
-  background-color: ${Colors.violet};
-  padding: 4px 8px;
-  display: inline-block;
-  border-radius: 4px;
-  ${media.lessThan('small')`
-    margin: 4px 8px 4px 0;
-  `}
 `;
 
 const Container = styled.div`

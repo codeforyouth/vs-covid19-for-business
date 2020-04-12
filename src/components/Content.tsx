@@ -110,7 +110,8 @@ const Layout = styled.div`
     }
   }
   ${media.lessThan('medium')`
-    padding: 0 16px;
+    background-color: ${Colors.bgLightGray};
+    padding: 16px;
     div {
       > .categories {
         padding-top: 14px;
