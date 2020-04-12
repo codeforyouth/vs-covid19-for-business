@@ -6,13 +6,16 @@ import { AppContainer } from '../containers';
 import images from '../assets/images/*.png';
 import { Colors, Industries, Purposes, Prefectures } from '../shared';
 import { BASE_URL, Meta } from '../constants';
+import { useState } from 'preact/hooks';
 
 const SearchBox: FunctionalComponent = () => {
+  const [isChanged, toggleIsChanged] = useState(false);
   const { params, setParams, word, setWord } = AppContainer.useContainer();
 
   const handleChangeWord = (
     e: h.JSX.TargetedEvent<HTMLInputElement, InputEvent>,
   ): void => {
+    !isChanged && toggleIsChanged(true);
     const value = (e.target as HTMLInputElement)?.value;
     setWord(value === '' ? null : value);
   };
@@ -25,9 +28,11 @@ const SearchBox: FunctionalComponent = () => {
     setParams(prevParams => ({
       ...prevParams,
       purpose_category:
-        key === 'purpose' ? Number(value) : prevParams.purpose_category,
+        key === 'purpose' ? Number(value) || null : prevParams.purpose_category,
       industry_category:
-        key === 'industry' ? Number(value) : prevParams.industry_category,
+        key === 'industry'
+          ? Number(value) || null
+          : prevParams.industry_category,
       'prefecture.name':
         key === 'prefecture' ? value : prevParams['prefecture.name'],
     }));
@@ -61,7 +66,7 @@ const SearchBox: FunctionalComponent = () => {
           type="text"
           id="searchbox"
           placeholder="検索する単語をご入力ください"
-          value={word}
+          value={word || (!isChanged ? params?.q : '')}
           onChange={handleChangeWord}
           onKeyDown={handleKeyDown}
         />
