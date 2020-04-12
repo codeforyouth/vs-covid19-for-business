@@ -108,6 +108,9 @@ const PageContainer = styled.div`
       color: white;
       text-align: center;
       background-color: ${Colors.green};
+      ${media.lessThan('small')`
+        padding: 40px 0 36px;
+      `}
       > a {
         > img {
           width: 480px;

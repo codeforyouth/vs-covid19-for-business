@@ -51,15 +51,7 @@ const SearchBox: FunctionalComponent = () => {
     <Container>
       <h1 id="title">
         <img src={images.title} alt="VS COVID-19" />
-        <div class="subtitle">
-          <a
-            href="https://twitter.com/search?q=%23%E6%B0%91%E9%96%93%E8%A3%9C%E5%8A%A9%E9%87%91%E3%83%8A%E3%83%93"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            #事業者向け支援情報ナビ
-          </a>
-        </div>
+        <span class="subtitle">#事業者向け支援情報ナビ</span>
       </h1>
       <div class="search">
         <input
@@ -199,12 +191,14 @@ const Container = styled.div`
       margin: 0 auto;
     }
     > .subtitle {
-      color: ${Colors.textGray};
+      color: ${Colors.white};
+      display: block;
       font-size: 30px;
       font-weight: normal;
       margin-top: -8px;
       ${media.lessThan('small')`
         margin-top: 0;
+        font-size: 24px;
       `}
       > a {
         color: ${Colors.white} !important;
@@ -314,7 +308,7 @@ const Container = styled.div`
   }
   ${media.lessThan('small')`
     > h1  {
-      padding: 30px 0 20px;
+      padding: 40px 0 20px;
       > img {
         width: 70vw;
       }
