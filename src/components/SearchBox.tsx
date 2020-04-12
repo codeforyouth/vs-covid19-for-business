@@ -1,14 +1,15 @@
-import { h, FunctionalComponent } from 'preact';
+import { h, FunctionalComponent, ComponentChild } from 'preact';
 import { Link } from 'preact-router/match';
+import { useState } from 'preact/hooks';
 import styled from 'styled-components';
 import media from 'styled-media-query';
 import { AppContainer } from '../containers';
 import images from '../assets/images/*.png';
 import { Colors, Industries, Purposes, Prefectures } from '../shared';
 import { BASE_URL, Meta } from '../constants';
-import { useState } from 'preact/hooks';
+import { RouteProps } from '../pages/Top';
 
-const SearchBox: FunctionalComponent = () => {
+const SearchBox: FunctionalComponent<RouteProps & ComponentChild> = props => {
   const [isChanged, toggleIsChanged] = useState(false);
   const { params, setParams, word, setWord } = AppContainer.useContainer();
 
@@ -133,7 +134,7 @@ const SearchBox: FunctionalComponent = () => {
                 href="https://twitter.com/share?ref_src=twsrc%5Etfw"
                 class="twitter-share-button"
                 data-text={Meta.title + ' | ' + Meta.description}
-                data-url={BASE_URL}
+                data-url={BASE_URL + props.url}
                 data-lang="ja"
                 data-size="small"
               />
@@ -149,7 +150,7 @@ const SearchBox: FunctionalComponent = () => {
                 data-lang="ja"
                 data-type="share-a"
                 data-ver="3"
-                data-url={BASE_URL}
+                data-url={BASE_URL + props.url}
                 data-color="default"
                 data-size="small"
                 data-count="false"
@@ -164,7 +165,7 @@ const SearchBox: FunctionalComponent = () => {
             <div>
               <div
                 class="fb-like"
-                data-href={BASE_URL}
+                data-href={BASE_URL + props.url}
                 data-width=""
                 data-layout="button"
                 data-action="like"
