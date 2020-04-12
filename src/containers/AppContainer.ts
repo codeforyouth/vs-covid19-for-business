@@ -7,19 +7,19 @@ import { API_BASE_URL } from '../constants';
 
 export type AppContainerType = {
   isInitial: boolean;
+  pageNumber: number;
   params?: Params | null;
   word?: string | null;
   supportsData: SupportsData;
-  handleSetIsInitial: (isInitial: boolean) => void;
+  setIsInitial: StateUpdater<boolean>;
+  setPageNumber: StateUpdater<number>;
   setParams: StateUpdater<Params>;
-  handleSetParams: (params: Params) => void;
-  handleSetWord: (w?: string) => void;
-  fetchSupports: (params?: Params) => void;
-  handleSetSupports: (supports?: Data | null) => void;
+  setWord: StateUpdater<string | undefined>;
+  fetchSupports: (params?: Params, withLoadMore?: boolean) => void;
 };
 
 type SupportsData = {
-  response: AxiosResponse<Data> | null;
+  data?: Data | null;
   error: AxiosError | null;
   status?: 'loading' | 'success' | 'fail';
 };
@@ -32,66 +32,58 @@ const initialParams: Params = {
 };
 
 const initialSupportState: SupportsData = {
-  response: null,
+  data: null,
   error: null,
   status: undefined,
 };
 
 const useAppContainer = (): AppContainerType => {
   const [isInitial, setIsInitial] = useState(true);
-  const [params, setParams] = useState<Params>(initialParams);
   const [word, setWord] = useState(null);
+  const [params, setParams] = useState<Params>(initialParams);
+  const [pageNumber, setPageNumber] = useState(0);
   const [supportsData, setSupportsData] = useState<SupportsData>(
     initialSupportState,
   );
 
-  const handleSetParams = useCallback(
-    (params?: Params): void => setParams(params),
+  const fetchSupports = useCallback(
+    async (params: Params, withLoadMore?: boolean): Promise<void> => {
+      if (!withLoadMore) {
+        setSupportsData(prevState => ({
+          ...prevState,
+          status: 'loading',
+        }));
+      }
+      const queries = Object.entries(params)
+        .filter(([_key, value]) => value != null)
+        .map(([key, val]) => (key === 'q' ? `,${val}` : `&${key}=${val}`))
+        .join('');
+      try {
+        const res: AxiosResponse<Data | null> = await axios.get(
+          API_BASE_URL + queries,
+        );
+        setSupportsData(prevState => ({
+          ...prevState,
+          status: 'success',
+          data: withLoadMore
+            ? {
+                ...prevState.data,
+                items: prevState.data.items.concat(res.data.items),
+              }
+            : res.data,
+        }));
+        return Promise.resolve();
+      } catch (err) {
+        setSupportsData(prevState => ({
+          ...prevState,
+          error: err,
+          status: 'fail',
+        }));
+        return Promise.reject();
+      }
+    },
     [],
   );
-
-  const handleSetIsInitial = useCallback(
-    (isInitial: boolean) => setIsInitial(isInitial),
-    [],
-  );
-
-  const handleSetWord = useCallback((w?: string): void => setWord(w), []);
-
-  const handleSetSupports = useCallback((data?: Data | null): void => {
-    setSupportsData({
-      ...supportsData,
-      response: { ...supportsData.response, data },
-    });
-  }, []);
-
-  const fetchSupports = useCallback(async (params: Params): Promise<void> => {
-    setSupportsData({
-      ...supportsData,
-      status: 'loading',
-    });
-    const queries = Object.entries(params)
-      .filter(([_key, value]) => value != null)
-      .map(([key, val]) => (key === 'q' ? `,${val}` : `&${key}=${val}`))
-      .join('');
-    try {
-      const res: AxiosResponse<Data | null> = await axios.get(
-        API_BASE_URL + queries,
-      );
-      setSupportsData(prevState => ({
-        ...prevState,
-        response: res,
-        status: 'success',
-      }));
-      return Promise.resolve();
-    } catch (err) {
-      setSupportsData(prevState => ({
-        ...prevState,
-        error: err,
-        status: 'fail',
-      }));
-      return Promise.reject();
-    }
-  }, []);
 
   const createParams = useCallback(() => {
     if (!isInitial) {
@@ -111,14 +103,14 @@ const useAppContainer = (): AppContainerType => {
 
   return {
     isInitial,
+    pageNumber,
     params,
     word,
     supportsData,
-    handleSetIsInitial,
-    handleSetParams,
+    setIsInitial,
+    setPageNumber,
     setParams,
-    handleSetWord,
-    handleSetSupports,
+    setWord,
     fetchSupports,
   };
 };

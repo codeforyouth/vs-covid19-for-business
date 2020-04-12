@@ -15,9 +15,9 @@ const Top: FunctionalComponent<RouteProps & ComponentChild> = props => {
   const {
     params,
     fetchSupports,
-    handleSetParams,
+    setParams,
     isInitial,
-    handleSetIsInitial,
+    setIsInitial,
   } = AppContainer.useContainer();
 
   useEffect(() => {
@@ -28,8 +28,8 @@ const Top: FunctionalComponent<RouteProps & ComponentChild> = props => {
       purpose_category: purpose_category ? Number(purpose_category) : null,
       'prefecture.name': props.matches?.['prefecture.name'] ?? null,
     };
-    handleSetParams(params);
-    handleSetIsInitial(false);
+    setParams(params);
+    setIsInitial(false);
   }, []);
 
   useEffect(() => {
