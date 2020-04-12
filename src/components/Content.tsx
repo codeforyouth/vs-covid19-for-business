@@ -3,12 +3,13 @@ import { h, FunctionalComponent } from 'preact';
 import styled from 'styled-components';
 import media from 'styled-media-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import ArrowUp from '@material-ui/icons/ArrowUpward';
 import { AppContainer } from '../containers';
 import { Card, Loader } from '.';
 import { LAYOUT_WIDTH } from '../constants';
 import { Colors } from '../shared';
 import { useCallback } from 'preact/hooks';
-import { usePrevious } from '../hooks';
+import { usePrevious, useScrollPosition } from '../hooks';
 
 const CheckLoadStatus: FunctionalComponent = () => {
   const {
@@ -18,7 +19,7 @@ const CheckLoadStatus: FunctionalComponent = () => {
     supportsData: { status, error, data },
     fetchSupports,
   } = AppContainer.useContainer();
-
+  const scrollPosition = useScrollPosition();
   const prevPageNumber = usePrevious(pageNumber);
 
   const handleLoadMore = useCallback(() => {
@@ -29,6 +30,10 @@ const CheckLoadStatus: FunctionalComponent = () => {
       offset: nextPageNumber * 10,
     };
     fetchSupports(offsetQueries, true);
+  }, []);
+
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   return (
@@ -53,12 +58,51 @@ const CheckLoadStatus: FunctionalComponent = () => {
                     data.items?.map((item, i) => <Card key={i} {...item} />)}
                 </div>
               </InfiniteScroll>
+              <ScrollTrigger
+                className="scroll-trigger"
+                onClick={scrollToTop}
+                scrollPosition={scrollPosition}
+              >
+                <ArrowUp />
+              </ScrollTrigger>
             </div>
           ))}
       </div>
     </Layout>
   );
 };
+
+const ScrollTrigger = styled.div<{ scrollPosition: number }>`
+  display: ${({ scrollPosition }) => (scrollPosition > 1000 ? 'flex' : 'none')};
+  cursor: pointer;
+  background-color: ${Colors.green};
+  width: 50px;
+  height: 50px;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  border-radius: 50%;
+  margin: 36px;
+  z-index: 5;
+  animation: fadeIn 2s ease 0s 1 normal;
+  > svg {
+    color: ${Colors.white};
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    30% {
+      opacity: 0.7;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+`;
 
 const Layout = styled.div`
   background-color: ${Colors.bgLightGray};
