@@ -1,4 +1,4 @@
-# VS COVID-19 事業者向け政府情報ナビ
+# 事業者向け政府情報ナビ | VS COVID-19
 [![](./src/assets/images/vscovid19.png)](./src/assets/images/vscovid19.png)
 
 ## このリポジトリについて

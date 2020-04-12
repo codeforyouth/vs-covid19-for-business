@@ -12,6 +12,6 @@ export const BASE_URL = {
 }[(process.env.NODE_ENV as keys) || 'development'];
 
 export const Meta = {
-  title: 'VS COVID-19 #事業者向け支援情報ナビ',
+  title: '#事業者向け支援情報ナビ | VS COVID-19',
   description: '行政機関による新型コロナウイルス感染症対策支援情報まとめ',
 };
