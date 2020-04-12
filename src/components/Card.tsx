@@ -166,14 +166,14 @@ const Container = styled.div`
     }
     > .bottom {
       padding: 20px;
-      justify-content: center;
       > .from {
         margin-bottom: 12px;
         width: 100%;
-        text-align: center;
+        text-align: left;
       }
       > .url {
         margin-bottom: 8px;
+        margin-left: auto;
       }
     }
   `}
