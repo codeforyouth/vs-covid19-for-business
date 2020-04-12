@@ -87,7 +87,7 @@ const SearchBox: FunctionalComponent = () => {
               ))}
             </select>
           </div>
-          <div className="select-wrapper">
+          <div className="select-wrapper half">
             <select name="purposes" onChange={handleChangeSelect('purpose')}>
               <option value={null} selected>
                 用途で絞る
@@ -103,7 +103,7 @@ const SearchBox: FunctionalComponent = () => {
               ))}
             </select>
           </div>
-          <div className="select-wrapper">
+          <div className="select-wrapper half">
             <select
               name="prefectures"
               onChange={handleChangeSelect('prefecture')}
@@ -234,9 +234,16 @@ const Container = styled.div`
       display: flex;
       justify-content: center;
       ${media.lessThan('small')`
-        flex-direction: column;
-        width: 90vw;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 95vw;
         margin: 0 auto;
+        .select-wrapper {
+          font-size: 13px;
+          &.half {
+            width: 40vw;
+          }
+        }
       `}
       .select-wrapper {
         overflow: hidden;
@@ -328,7 +335,7 @@ const Container = styled.div`
       }
       > .sitedesc {
         padding: 0 20px;
-        font-size: 9px;
+        font-size: 11px;
         margin-bottom: 30px;
       }
     }
