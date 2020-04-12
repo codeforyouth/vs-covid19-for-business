@@ -2,37 +2,57 @@
 import { h, FunctionalComponent } from 'preact';
 import styled from 'styled-components';
 import media from 'styled-media-query';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { AppContainer } from '../containers';
-import { Card } from '.';
+import { Card, Loader } from '.';
 import { LAYOUT_WIDTH } from '../constants';
-import Loader from '../assets/images/loader.svg';
 import { Colors } from '../shared';
+import { useCallback } from 'preact/hooks';
+import { usePrevious } from '../hooks';
 
 const CheckLoadStatus: FunctionalComponent = () => {
   const {
-    supportsData: { status, error, response },
+    params,
+    pageNumber,
+    setPageNumber,
+    supportsData: { status, error, data },
+    fetchSupports,
   } = AppContainer.useContainer();
+
+  const prevPageNumber = usePrevious(pageNumber);
+
+  const handleLoadMore = useCallback(() => {
+    const nextPageNumber = prevPageNumber + 1;
+    setPageNumber(nextPageNumber);
+    const offsetQueries = {
+      ...params,
+      offset: nextPageNumber * 10,
+    };
+    fetchSupports(offsetQueries, true);
+  }, []);
+
   return (
     <Layout>
       <div>
-        {status === (undefined || 'loading') && (
-          <div className="loader">
-            <img src={Loader} alt="読込中" />
-          </div>
-        )}
+        {status === (undefined || 'loading') && <Loader />}
         {status === 'fail' && <p>{error.name + ':' + error.message}</p>}
         {status === 'success' &&
-          (response.data.total === 0 ? (
+          (data.total === 0 ? (
             <p>該当する支援情報がみつかりませんでした 🙇‍♂️</p>
           ) : (
             <div>
-              <span>該当件数: {response.data.total}件</span>
-              <div className="content">
-                {response &&
-                  response.data.items?.map((item, i) => (
-                    <Card key={i} {...item} />
-                  ))}
-              </div>
+              <span>該当件数: {data.total}件</span>
+              <InfiniteScroll
+                dataLength={data.items.length}
+                hasMore={data.total > data.items.length}
+                next={handleLoadMore}
+                loader={<Loader />}
+              >
+                <div className="content">
+                  {data &&
+                    data.items?.map((item, i) => <Card key={i} {...item} />)}
+                </div>
+              </InfiniteScroll>
             </div>
           ))}
       </div>
@@ -80,16 +100,6 @@ const Layout = styled.div`
         border-radius: 4px;
         margin-right: 8px;
         margin-top: 8px;
-      }
-    }
-    > .loader {
-      width: 100%;
-      > img {
-        filter: invert(50%) sepia(0%) saturate(11%) hue-rotate(143deg)
-          brightness(101%) contrast(93%);
-        margin: 120px auto;
-        width: 80px;
-        height: 80px;
       }
     }
     span {

@@ -8,18 +8,13 @@ import { Colors, Industries, Purposes, Prefectures } from '../shared';
 import { BASE_URL, Meta } from '../constants';
 
 const SearchBox: FunctionalComponent = () => {
-  const {
-    params,
-    setParams,
-    word,
-    handleSetWord,
-  } = AppContainer.useContainer();
+  const { params, setParams, word, setWord } = AppContainer.useContainer();
 
   const handleChangeWord = (
     e: h.JSX.TargetedEvent<HTMLInputElement, InputEvent>,
   ): void => {
     const value = (e.target as HTMLInputElement)?.value;
-    handleSetWord(value === '' ? null : value);
+    setWord(value === '' ? null : value);
   };
 
   const handleChangeSelect = (key: 'purpose' | 'industry' | 'prefecture') => (
