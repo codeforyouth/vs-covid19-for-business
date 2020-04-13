@@ -11,7 +11,7 @@ import { DETAIL_BASE_URL } from '../constants';
 type Props = Support;
 const Card: FunctionalComponent<Props> = props => {
   return (
-    <a
+    <A
       href={`${DETAIL_BASE_URL}/${props.id}`}
       target="_blank"
       rel="noopener noreferrer"
@@ -54,9 +54,13 @@ const Card: FunctionalComponent<Props> = props => {
           <div className="url">アクセスする</div>
         </div>
       </Container>
-    </a>
+    </A>
   );
 };
+
+const A = styled.a`
+  z-index: 0;
+`;
 
 const OneLine = styled.div`
   overflow: hidden;
