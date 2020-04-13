@@ -62,7 +62,7 @@ const Wrapper = styled.div<StyleProps>`
   color: ${Colors.white};
   background-color: ${Colors.green};
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.12);
-  z-index: 5;
+  z-index: 10;
   > div {
     display: flex;
     align-items: center;
